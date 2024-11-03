@@ -1,0 +1,20 @@
+[Added Associations]
+text/css=sublime_text.desktop;
+text/x-csrc=sublime_text.desktop;
+text/plain=sublime_text.desktop;librewolf.desktop;
+application/x-zerosize=sublime_text.desktop;nvim.desktop;
+application/json=sublime_text.desktop;
+
+[Default Applications]
+text/x-csrc=sublime_text.desktop
+application/x-zerosize=nvim.desktop
+x-scheme-handler/http=librewolf.desktop
+x-scheme-handler/https=librewolf.desktop
+text/html=librewolf.desktop
+x-scheme-handler/about=librewolf.desktop
+x-scheme-handler/unknown=librewolf.desktop
+application/pdf=librewolf.desktop
+x-www-browser=librewolf.desktop
+image/png=com.interversehq.qView.desktop
+image/jpeg=com.interversehq.qView.desktop
+image/jpg=com.interversehq.qView.desktop
