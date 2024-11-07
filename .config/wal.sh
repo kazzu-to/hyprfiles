@@ -11,6 +11,7 @@ if [[ -n "$IMAGE" ]]; then
     # Set the selected image as wallpaper using swww
     swww img "$IMAGE"
     wal -i "$IMAGE"
+    killall waybar && waybar
 else
     echo "No image selected."
 fi
