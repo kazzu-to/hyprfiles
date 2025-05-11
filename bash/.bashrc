@@ -1,3 +1,7 @@
+####################
+#credits to chris titus for functions of this scripts 
+####################
+
 #!/usr/bin/env bash
 iatest=$(expr index "$-" i)
 
@@ -132,7 +136,7 @@ alias hypr='nvim ~/.config/hypr/'
 
 #pacman & paru alias
 alias supdate='sudo pacman -Syu'
-alias pupdate='paru -Syu'
+alias pupdate='yay -Syu'
 alias rns='sudo paru -Rns'
 alias pac='sudo pacman -S'
 
@@ -147,7 +151,7 @@ alias da='date "+%Y-%m-%d %A %T %Z"'
 alias cp='cp -vi'
 alias mv='mv -vi'
 alias cpv='rsync -avh --info=progress2'
-alias rm='trash -v'
+#alias rm='trash -v'
 alias mkdir='mkdir -p'
 alias ps='ps auxf'
 alias ping='ping -c 10'
@@ -435,7 +439,7 @@ distribution () {
 
 DISTRIBUTION=$(distribution)
 if [ "$DISTRIBUTION" = "redhat" ] || [ "$DISTRIBUTION" = "arch" ]; then
-      alias cat='bat'
+      alias cat='cat'
 else
       alias cat='batcat'
 fi 
@@ -602,8 +606,8 @@ trim() {
 	var="${var%"${var##*[![:space:]]}"}" # remove trailing whitespace characters
 	echo -n "$var"
 }
-# GitHub Titus Additions
 
+# GitHub  Additions
 gcom() {
 	git add .
 	git commit -m "$1"
@@ -650,9 +654,9 @@ export PATH=$PATH:"$HOME/.local/bin:$HOME/.cargo/bin:/var/lib/flatpak/exports/bi
 #eval "$(starship init bash)"
 #eval "$(zoxide init bash)"
 #PS1='\e[32;1m\u@\h: \e[37m\W\e[0m\$ '
-export PS1="\n\e[0;33m  \e[0;32m\w       \u       :     \n\e[0;33m \e[0;32m  \e[0;37m"
-#export PS1="\[\e[31m\][\[\e[m\]\[\e[38;5;172m\]\u\[\e[m\]@\[\e[38;5;153m\]\h\[\e[m\] \[\e[38;5;214m\]\W\[\e[m\]\[\e[31m\]]\[\e[m\]\\$ "
-force_color_prompt=yes
+#PS1="\n\e[0;33m  \e[0;32m\w       \u       :     \n\e[0;33m \e[0;32m  \e[0;37m"
+PS1="\[\e[31m\][\[\e[m\]\[\e[38;5;172m\]\u\[\e[m\]@\[\e[38;5;153m\]\h\[\e[m\] \[\e[38;5;214m\]\W\[\e[m\]\[\e[31m\]]\[\e[m\]\\$ "
+#force_color_prompt=yes
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
