@@ -1,0 +1,66 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+LOG_DIR="$HOME/.local/share/logs"
+mkdir -p "$LOG_DIR"
+LOG_FILE="$LOG_DIR/sysupdate.log"
+
+if [ -f /etc/os-release ]; then 
+	#distro = /etc/os-release 
+	grep -q "arch" /etc/os-release
+
+else 
+	echo "${RED}Distro is not arch or /etc/os-release not found${NC}"
+fi
+
+helper() {
+	if  command -v yay &>/dev/null ;then 
+		echo -e "${GREEN}yay is installed , updating through yay${NC}"
+		yay -Syu --noconfirm
+	elif  command -v paru &>/dev/null ;then
+		echo -e "${GREEN}paru is installed , updating through paru${NC}"
+		paru -Syu --noconfirm
+	else 
+		echo -e "${RED}paru or yay not installed.${NC}"
+		#echo "do you want to install them [Y/N]"
+		echo -e  "${GREEN}which helper do you want to install [paru/yay]${NC}"
+		read choice
+		if [ "$choice" == "paru" ];then
+			sudo pacman -S --needed base-devel git
+			git clone https://aur.archlinux.org/paru.git
+			cd paru
+			makepkg -si --noconfirm
+			rm -rf paru
+		else 
+			sudo pacman -S --needed base-devel git
+			git clone https://aur.archlinux.org/yay.git
+			cd yay
+			makepkg -si --noconfirm
+			rm -rf yay 
+		fi
+		helper
+
+	fi
+}
+helper
+
+echo -e "\n"
+echo -e "${GREEN}removing orphan pacakages${NC}" 
+	sudo pacman -Rns $(pacman -Qdtq) --noconfirm &> $LOG_FILE
+	if [ $? -eq 0 ]; then
+		continue
+	else 
+		cat  $LOG_FILE
+	fi
+
+echo -e "\n"	
+echo -e "${GREEN}cleaning pacman cache${NC}" 
+	sudo pacman -Scc	--noconfirm
+	sudo rm -rf /var/cache/pacman/pkg/*
+echo -e "\n"
+echo -e "${GREEN}cleaning /tmp & trash${NC}"
+	sudo rm -rf /tmp/*
+	rm -rf ~/.local/share/Trash/*
