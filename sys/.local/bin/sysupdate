@@ -4,9 +4,9 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
-LOG_DIR="$HOME/.local/share/logs"
-mkdir -p "$LOG_DIR"
-LOG_FILE="$LOG_DIR/sysupdate.log"
+#LOG_DIR="$HOME/.local/share/logs"
+#mkdir -p "$LOG_DIR"
+#LOG_FILE="$LOG_DIR/sysupdate.log"
 
 if [ -f /etc/os-release ]; then 
 	#distro = /etc/os-release 
@@ -49,12 +49,12 @@ helper
 
 echo -e "\n"
 echo -e "${GREEN}removing orphan pacakages${NC}" 
-	sudo pacman -Rns $(pacman -Qdtq) --noconfirm &> $LOG_FILE
-	if [ $? -eq 0 ]; then
-		continue
-	else 
-		cat  $LOG_FILE
-	fi
+	sudo pacman -Rns $(pacman -Qdtq) --noconfirm  #&> $LOG_FILE
+	#if [ $? -eq 0 ]; then
+	#	continue
+	#else 
+	#	cat  $LOG_FILE
+	#fi
 
 echo -e "\n"	
 echo -e "${GREEN}cleaning pacman cache${NC}" 
