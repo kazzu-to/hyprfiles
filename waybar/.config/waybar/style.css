@@ -73,7 +73,7 @@ button:hover {
 
 #workspaces button.active {
     background: @color1;
-    color: @color3;
+    color: @forground;
     border-radius:10px;
     padding:2px 10px 1px 10px ;
     margin: 5px 5px;
@@ -82,7 +82,7 @@ button:hover {
 
 #workspaces button:hover {
      background: @transparent; 
-     color: @foreground; 
+     color: @cursor; 
     /*animation: ws_hover 20s ease-in-out 1;*/
     transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
 }
@@ -104,10 +104,8 @@ button:hover {
 
 #clock,
 #battery,
-#cpu,
 #memory,
 #disk,
-#temperature,
 #backlight,
 #bluetooth,
 #network,
@@ -118,8 +116,6 @@ button:hover {
 #mode,
 #idle_inhibitor,
 #scratchpad,
-#power-profiles-daemon,
-#custom-group,
 #mpd {
 	background : transparent;
 	padding: 0 8px;
@@ -129,6 +125,12 @@ button:hover {
 	padding: 2px 10px;
 }
 
+#cpu,
+#temperature,
+#power-profiles-daemon{
+	padding : 0 8px;
+	color : @color1;
+}	
 #window,
 #workspaces {
     margin: 0 4px;
@@ -170,6 +172,8 @@ label:focus {
 #custom-group {
   color: @transparent;
   background-color: @background;
+  border : 6px ;
+  border-color : #FFFFFF;
   }
 
 

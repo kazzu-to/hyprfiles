@@ -1,0 +1,30 @@
+#! /bin/bash
+
+package_path="$HOME/.local/bin/package_list.txt"
+
+
+if [[ ! -f "$package_path" ]]; then
+    echo "$package_path not found"
+    exit 1   # Exit script if file is missing
+fi
+
+if command -v sysupdate &> /dev/null ; then
+	sysupdate 
+else 
+	sudo pacman -S git stow --noconfirm --needed
+	git clone https://github.com/kazzu-to/hyprfiles
+	cd hyprfiles
+	stow sys 
+	cd $HOME
+	sysupdate
+fi
+
+mapfile -t packages < "$package_path"
+ 
+for item in "${packages[@]}" ; do
+	sudo pacman -S "$item" --noconfirm --needed
+	if [[ $? -ne 0 ]]; then 
+		echo "1" | yay $item --noconfirm --needed 
+	fi
+done 
+

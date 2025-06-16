@@ -63,4 +63,4 @@ echo -e "${GREEN}cleaning pacman cache${NC}"
 echo -e "\n"
 echo -e "${GREEN}cleaning /tmp & trash${NC}"
 	sudo rm -rf /tmp/*
-	rm -rf ~/.local/share/Trash/*
+	sudo rm -rf $HOME/.local/share/Trash/*
