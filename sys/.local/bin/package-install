@@ -28,3 +28,4 @@ for item in "${packages[@]}" ; do
 	fi
 done 
 
+grub_install

@@ -29,13 +29,13 @@ helper() {
 		echo -e  "${GREEN}which helper do you want to install [paru/yay]${NC}"
 		read choice
 		if [ "$choice" == "paru" ];then
-			sudo pacman -S --needed base-devel git
+			pacman -S --needed base-devel git
 			git clone https://aur.archlinux.org/paru.git
 			cd paru
 			makepkg -si --noconfirm
 			rm -rf paru
 		else 
-			sudo pacman -S --needed base-devel git
+			pacman -S --needed base-devel git
 			git clone https://aur.archlinux.org/yay.git
 			cd yay
 			makepkg -si --noconfirm
