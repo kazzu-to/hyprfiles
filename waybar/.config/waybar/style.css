@@ -3,7 +3,7 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
     font-family: "JetBrainsMono Nerd Font", Roboto, Helvetica, Arial, sans-serif;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 @import "/home/kazzu/.cache/wal/colors-waybar.css";
@@ -200,7 +200,10 @@ label:focus {
 
 #idle_inhibitor.activated {
     background: @color1;
-    color: @color2;
+    color: @foreground;
+    margin: 6px;
+    padding: 4px 4px 4px  6px;
+}
 }
 
 
