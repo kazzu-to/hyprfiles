@@ -51,6 +51,7 @@ nerd-fonts-noto-sans-mono
 net-tools
 network-manager-applet
 networkmanager
+nerd-fonts
 noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
