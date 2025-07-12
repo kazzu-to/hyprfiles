@@ -12,7 +12,6 @@ brave-bin
 brightnessctl
 btrfs-progs
 cliphist
-dolphin
 eclipse-java-bin
 efibootmgr
 fastfetch
@@ -88,7 +87,9 @@ tokyonight-gtk-theme-git
 tree
 ufw
 usbutils
+vlc
 vesktop-bin
+vscodium-bin
 vulkan-intel
 vulkan-radeon
 waybar
@@ -105,4 +106,3 @@ xf86-video-nouveau
 xorg-server
 xorg-xinit
 yazi
-zram-generator

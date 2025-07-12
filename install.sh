@@ -39,8 +39,8 @@ pkg(){
 
 enable_services(){
 	list=(bluetooth ly ufw)
-	for ser in "${list[@]}" ; 
-		if ! sudo systemctl enable "$svc" --now; then
+	for ser in "${list[@]}" ; do
+		if ! sudo systemctl enable "$ser" --now; then
 			echo -e "${RED}Couldn’t enable $svc${NC}"
 		fi
 	done
