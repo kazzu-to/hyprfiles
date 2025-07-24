@@ -316,7 +316,8 @@ label:focus {
 #volume,
 #systray,
 #clock,
-#idle_inhibitor {
+#idle_inhibitor,
+#custom-weather {
     background: @background;
     margin: 6px;
     padding: 0 5px;
