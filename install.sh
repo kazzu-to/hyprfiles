@@ -50,3 +50,4 @@ enable_services(){
 stowupdate
 pkg
 enable_services
+gsettings set org.gnome.desktop.interface gtk-theme "Midnight-Gray"
