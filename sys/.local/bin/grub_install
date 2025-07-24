@@ -12,10 +12,14 @@ if ! [[ -s "/usr/bin/grub-install" ]]; then
 	exit 1 
 fi 
 
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --modules="tpm" --disable-shim-lock
 error 2 "grub-install not successfull"
 
 grub-mkconfig -o /boot/grub/grub.cfg
+sbctl create-keys
+sbctl enroll-keys -m
+sbctl sign -s /boot/EFI/arch/grubx64.efi
+sbctl sign -s /boot/EFI/GRUB/grubx64.efi 
 error 3 "grub-mkconfig not successfull"
 
 sed -i '/^GRUB_TIMEOUT=/c\GRUB_TIMEOUT=10' "/etc/default/grub" 2>/dev/null
