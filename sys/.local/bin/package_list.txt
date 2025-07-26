@@ -33,6 +33,7 @@ jdk-openjdk
 kdeconnect
 kitty
 kvantum
+kvantum-qt5
 libpulse
 librewolf-bin
 libva-intel-driver
@@ -43,7 +44,6 @@ man-db
 meson
 midnight-gtk-theme-git
 mpc
-mpd
 nano
 nemo
 neovim
@@ -60,6 +60,7 @@ nwg-look
 openrazer-daemon
 os-prober
 otf-font-awesome
+Obs-studio
 pavucontrol
 pipewire
 pipewire-alsa
@@ -75,7 +76,6 @@ rofi-wayland
 rog-control-center
 sbctl
 scdoc
-shim-signed
 slurp
 smartmontools
 sof-firmware
@@ -104,6 +104,4 @@ xdg-user-dirs-gtk
 xdg-utils
 xf86-video-amdgpu
 xf86-video-nouveau
-xorg-server
-xorg-xinit
 yazi

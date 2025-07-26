@@ -25,11 +25,11 @@ window#waybar.hidden {
     opacity: 0.2;
 }
 
-/*
-window#waybar.empty {
-    background: transparent;
-}
-window#waybar.solo {
+window#waybar.empty #window {
+    margin: 0;
+    padding : 0;
+    background-color: transparent;
+}/*window#waybar.solo {
     background: #FFFFFF;
 }
 */
@@ -202,6 +202,7 @@ label:focus {
 #idle_inhibitor {
     background: @background;
     box-shadow : none;
+    margin: 4px 0 ;
     padding: 0px 3px 0 5px;
     border-radius:10px;
 
@@ -210,6 +211,7 @@ label:focus {
 #idle_inhibitor.activated {
     background: @color1;
     color: @foreground;
+    margin: 4px 0;
     padding: 0 2px 0 5px ;
 }
 

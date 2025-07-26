@@ -29,3 +29,4 @@ for item in "${packages[@]}" ; do
 done 
 
 grub_install
+wget -qO- https://raw.githubusercontent.com/Rokin05/midnight-kde/master/install.sh | sh
