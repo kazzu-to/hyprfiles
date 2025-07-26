@@ -1,5 +1,16 @@
 #!/usr/bin/env bash 
 
+
+# Ask for the password up front and refresh every minute.
+sudo -v
+# Start a background job to refresh the timestamp until the script exits.
+( while true; do sudo -n true; sleep 60; done ) &
+KEEPALIVE_PID=$!
+
+# Ensure we kill the background job on exit
+trap 'kill $KEEPALIVE_PID' EXIT
+
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
@@ -46,8 +57,23 @@ enable_services(){
 	done
 }
 
+grub() {
+	if [[ -f $HOME/.local/bin/grub_install ]]; then
+		sudo chmod +s $HOME/.local/bin/grub_install
+		sudo $HOME/.local/bin/grub_install
+	else 
+		stow sys 
+		if [[ $? -eq 0 ]]; then
+			grub
+		else
+			echo -e "${RED}'sys' folder isn't stow'ed yet${NC}"
+		fi
+	fi
+}
+
 
 #stowupdate
 pkg
 enable_services
 gsettings set org.gnome.desktop.interface gtk-theme "Midnight-Gray"
+grub
