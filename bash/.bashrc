@@ -70,7 +70,6 @@ export EDITOR=nvim
 export VISUAL=nvim
 alias pico='edit'
 alias spico='sedit'
-alias nano='edit'
 alias snano='sedit'
 alias vim='nvim'
 alias ls='ls --color=auto'
@@ -137,7 +136,7 @@ alias hypr='nvim ~/.config/hypr/'
 #pacman & paru alias
 alias supdate='sudo pacman -Syu'
 alias pupdate='yay -Syu'
-alias rns='sudo paru -Rns'
+alias rns='sudo yay -Rns'
 alias pac='sudo pacman -S'
 
 

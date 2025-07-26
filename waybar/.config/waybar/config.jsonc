@@ -10,9 +10,9 @@
 	// "margin": "4",
     "modules-left": [
 	    "privacy",
-	    "hyprland/workspaces",
 	    "hyprland/window",
 	"custom-weather",
+	"mpris",
 	//"wlr/taskbar",
 	"hyprland/mode",
 	"hyprland/scratchpad",
@@ -20,10 +20,10 @@
     ],
 
     "modules-center": [
+	"hyprland/workspaces",
     ],
 
     "modules-right": [
-	    //"mpd",
 	//"network",
 	"group/systeminfo",
 	"group/volume",
@@ -91,35 +91,38 @@
 	    "max-length":30
     },
 
-    "mpd": {
-	    "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
-	    "format-disconnected": "Disconnected ",
-	    "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
-	    "unknown-tag": "N/A",
-	    "interval": 5,
-	    "consume-icons": {
-		    "on": " "
-	    },
-	    "random-icons": {
-		    "off": "<span color=\"#f53c3c\"></span> ",
-		    "on": " "
-	    },
-	    "repeat-icons": {
-		    "on": " "
-	    },
-	    "single-icons": {
-		    "on": "1 "
-	    },
-	    "state-icons": {
-		    "paused": "",
-		    "playing": ""
-	    },
-	    "tooltip-format": "MPD (connected)",
-	    "tooltip-format-disconnected": "MPD (disconnected)",
-	    "server":"localhost:6600",
-	    "password":"pass-mpd"
-    },
-    "idle_inhibitor": {
+   "mpris": {
+	"interval": 1,
+	"format": "{player_icon} <i>{dynamic}</i>",
+	"format-paused": "{status_icon} <i>{artist} {title}</i>",
+	"on-click-left": "playerctl previous",
+	"on-click": "playerctl play-pause",
+	"on-click-right": "playerctl next",
+	"scroll-step": 5.0,
+	"smooth-scrolling-threshold": 1,
+	"tooltip": true,
+	"tooltip-format": "{status_icon} {dynamic}\nLeft Click: previous\n Click: Pause\nRight Click: Next",
+	"player-icons": {
+		"chromium": "",
+		"default": "",
+		"firefox": "",
+		"kdeconnect": "",
+		"mopidy": "",
+		"mpv": "󰐹",
+		"spotify": "",
+		"vlc": "󰕼",
+	},
+	"status-icons": {
+		"paused": "󰐎",
+		"playing": "",
+		"stopped": "",
+	},
+	"dynamic-order": ["title","artist"],
+	//"ignored-players": ["firefox", "zen"],
+	"max-length": 18,
+},   
+
+"idle_inhibitor": {
 	    "format": "{icon} ",
 	    "format-icons": {
 		    "activated": "",
@@ -171,7 +174,7 @@
 	"critical-threshold": 80 ,
 	"interval" : 1,
 	// "format-critical": "{temperatureC}°C {icon}",
-	"format": "{icon} {temperatureC}°C",
+	"format": " {icon} {temperatureC}°C",
 	"format-icons": ["", "", ""],
 	"tooltip" : false
 
