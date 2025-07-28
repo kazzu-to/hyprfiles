@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+
+path="$HOME/.cache/cliphist/db"
+
+if [[ -f $path ]]; then
+	rm $path
+else 
+	echo -e "$path not found"
+fi

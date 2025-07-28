@@ -45,13 +45,14 @@ pkg(){
     		fi
 	else 
 		echo -e "${RED}package-install not found at ~/.local/bin/ -check hyprfiles/sys/.local/bin${NC}"
+		exit 4
 	fi
 }
 
 enable_services(){
 	list=(bluetooth ly ufw)
 	for ser in "${list[@]}" ; do
-		if ! sudo systemctl enable "$ser" --now; then
+		if ! sudo systemctl enable "$ser" ; then
 			echo -e "${RED}Couldn’t enable $svc${NC}"
 		fi
 	done
@@ -67,6 +68,7 @@ grub() {
 			grub
 		else
 			echo -e "${RED}'sys' folder isn't stow'ed yet${NC}"
+			exit 5
 		fi
 	fi
 }
@@ -74,6 +76,6 @@ grub() {
 
 #stowupdate
 pkg
+grub
 enable_services
 gsettings set org.gnome.desktop.interface gtk-theme "Midnight-Gray"
-grub

@@ -18,6 +18,8 @@ error 2 "grub-install not successfull"
 grub-mkconfig -o /boot/grub/grub.cfg
 sbctl create-keys
 sbctl enroll-keys -m
+sbctl sign -s /boot/vmlinuz-linux
+sbctl sign -s /boot/EFI/BOOT/BOOTX64.EFI 
 sbctl sign -s /boot/EFI/arch/grubx64.efi
 sbctl sign -s /boot/EFI/GRUB/grubx64.efi 
 error 3 "grub-mkconfig not successfull"
@@ -36,5 +38,6 @@ sed -i '/^#GRUB_BACKGROUND/c\GRUB_BACKGROUND="/boot/grub/themes/poly-dark/grub.p
 error 9 "unable to set grub background"
 
 grub-mkconfig -o /boot/grub/grub.cfg
+mkinitcpio -P
 error 10 "Unable to update grub"
 

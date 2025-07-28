@@ -1,6 +1,6 @@
 #! /bin/bash
 
-package_path="$HOME/.local/bin/package_list.txt"
+package_path="/home/kazzu/.local/bin/package_list.txt"
 
 
 if [[ ! -f "$package_path" ]]; then

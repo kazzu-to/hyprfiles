@@ -12,8 +12,8 @@
 	    "privacy",
 	    "hyprland/window",
 	"custom-weather",
+	"wlr/taskbar",
 	"mpris",
-	//"wlr/taskbar",
 	"hyprland/mode",
 	"hyprland/scratchpad",
 	"custom/media"
@@ -243,19 +243,7 @@
 	},
 	"on-click": "pavucontrol"
     },
-    "custom/media": {
-	    "format": "{icon} {}",
-	    "return-type": "json",
-	    "max-length": 40,
-	    "format-icons": {
-		    "spotify": "",
-		    "default": "🎜"
-	    },
-	    "escape": true,
-	    "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-	// "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
-    },
-    "privacy": {
+   "privacy": {
 	    "icon-spacing": 4,
 	    "icon-size": 18,
 	    "transition-duration": 250,
@@ -278,10 +266,10 @@
 
 	    ]
     },
-/*	"wlr/taskbar": {
+	"wlr/taskbar": {
 		"format": "{icon}",
 		"icon-size": 14,
-		"icon-theme": "Numix-Circle",
+		"icon-theme": "oomox-tokyonight-moon",
 		"tooltip-format": "{title}",
 		"on-click": "activate",
 		"on-click-middle": "close",
@@ -295,8 +283,8 @@
 			"Firefox Web Browser": "Firefox",
 			"Foot Server": "Terminal"
 			}
-	}, */
- 	"custom/weather":{
+	},
+	"custom/weather":{
     		"exec":"curl -s 'wttr.in/?format=3'",
     		"format": "{text} ",
     		"tooltip": false,
