@@ -58,6 +58,7 @@ noto-fonts-emoji
 noto-fonts-extra
 nwg-look
 openrazer-daemon
+openresolv
 os-prober
 otf-font-awesome
 Obs-studio
@@ -66,12 +67,14 @@ pipewire
 pipewire-alsa
 pipewire-jack
 pipewire-pulse
+polkit-gnome
 polkit-kde-agent
 python-pywal16
 qt5-wayland
 qt5ct
 qt6-wayland
 qt6ct
+reflector
 rofi-wayland
 rog-control-center
 sbctl
@@ -97,7 +100,9 @@ waybar
 wget
 wine-mono
 wireless_tools
+wireguard-tools
 wireplumber
+xdg-desktop-portal
 xdg-desktop-portal-hyprland
 xdg-user-dirs
 xdg-user-dirs-gtk

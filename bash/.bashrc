@@ -136,7 +136,7 @@ alias hypr='nvim ~/.config/hypr/'
 #pacman & paru alias
 alias supdate='sudo pacman -Syu'
 alias pupdate='yay -Syu'
-alias rns='sudo yay -Rns'
+alias rns='sudo pacman -Rns'
 alias pac='sudo pacman -S'
 
 

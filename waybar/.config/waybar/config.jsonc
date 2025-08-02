@@ -20,7 +20,7 @@
     ],
 
     "modules-center": [
-	"hyprland/workspaces",
+	"hyprland/workspaces"
     ],
 
     "modules-right": [
@@ -57,7 +57,7 @@
 		    "8": "८",
 		    "9": "९",
 		    "10": "१०",
-		    "urgent": "",
+		    "urgent": ""
 	/* "active": " ",
 	    "default": " ",
 	    },
@@ -95,13 +95,13 @@
 	"interval": 1,
 	"format": "{player_icon} <i>{dynamic}</i>",
 	"format-paused": "{status_icon} <i>{artist} {title}</i>",
-	"on-click-left": "playerctl previous",
+	"on-click-middle": "playerctl previous",
 	"on-click": "playerctl play-pause",
 	"on-click-right": "playerctl next",
 	"scroll-step": 5.0,
 	"smooth-scrolling-threshold": 1,
 	"tooltip": true,
-	"tooltip-format": "{status_icon} {dynamic}\nLeft Click: previous\n Click: Pause\nRight Click: Next",
+	"tooltip-format": "{status_icon} {dynamic}\nMiddle Click: previous\nClick: Pause\nRight Click: Next",
 	"player-icons": {
 		"chromium": "",
 		"default": "",
@@ -110,16 +110,16 @@
 		"mopidy": "",
 		"mpv": "󰐹",
 		"spotify": "",
-		"vlc": "󰕼",
+		"vlc": "󰕼"
 	},
 	"status-icons": {
 		"paused": "󰐎",
 		"playing": "",
-		"stopped": "",
+		"stopped": ""
 	},
 	"dynamic-order": ["title","artist"],
 	//"ignored-players": ["firefox", "zen"],
-	"max-length": 18,
+	"max-length": 18
 },   
 
 "idle_inhibitor": {
@@ -135,8 +135,9 @@
 	//"show-passive-items" : true
     },
     "clock": {
+	    "format":"{:%R}",
 	// "timezone": "America/New_York",
-	"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+	"tooltip-format": "<big>{:%Y %B}</big>\n<tt><big>{calendar}</big></tt>",
 	"format-alt": "{:%Y-%m-%d}"
     },
     "group/systeminfo" : {
@@ -146,14 +147,14 @@
 		    "cpu",
 		    "temperature",
 			"battery",
-			"backlight",
+			"backlight"
 	    ]
     },  
     "group/volume" : {
 	    "orientation" : "horizontal",
 	    "modules": [
 			"pulseaudio",
-			"pulseaudio/slider",
+			"pulseaudio/slider"
 	    ]
     },  
 	"group/systray" : {
@@ -163,6 +164,13 @@
 			"custom/notification"
 	    ]
     },
+	"network": {
+ 	   "interface": "wlan0",                  // replace with your iface
+ 	   "interval": 1,                          // update every second
+ 	   "format-connected": "{⬇ {bandwidthDownOctets} ⬆ {bandwidthUpOctets}",
+ 	   "format-disconnected": "󰖩 No Net",
+ 	   "tooltip": false
+ 	 },
     "cpu": {
 	    "format": " {usage}%",
 	    "interval":5,

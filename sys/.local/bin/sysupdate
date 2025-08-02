@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# Ask for the password up front and refresh every minute.
+sudo -v
+# Start a background job to refresh the timestamp until the script exits.
+( while true; do sudo -n true; sleep 60; done ) &
+KEEPALIVE_PID=$!
+
+# Ensure we kill the background job on exit
+trap 'kill $KEEPALIVE_PID' EXIT
+
+
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
@@ -29,13 +40,13 @@ helper() {
 		echo -e  "${GREEN}which helper do you want to install [paru/yay]${NC}"
 		read choice
 		if [ "$choice" == "paru" ];then
-			pacman -S --needed base-devel git
+			sudo pacman -S --needed base-devel git
 			git clone https://aur.archlinux.org/paru.git
 			cd paru
 			makepkg -si --noconfirm
 			rm -rf paru
 		else 
-			pacman -S --needed base-devel git
+			sudo pacman -S --needed base-devel git
 			git clone https://aur.archlinux.org/yay.git
 			cd yay
 			makepkg -si --noconfirm
@@ -59,6 +70,7 @@ echo -e "${GREEN}removing orphan pacakages${NC}"
 echo -e "\n"	
 echo -e "${GREEN}cleaning pacman cache${NC}" 
 	sudo pacman -Scc	--noconfirm
+	yay -Sc 	--noconfirm
 	sudo rm -rf /var/cache/pacman/pkg/*
 echo -e "\n"
 echo -e "${GREEN}cleaning /tmp & trash${NC}"
