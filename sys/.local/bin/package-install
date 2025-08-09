@@ -28,5 +28,8 @@ for item in "${packages[@]}" ; do
 	fi
 done 
 
-grub_install
 wget -qO- https://raw.githubusercontent.com/Rokin05/midnight-kde/master/install.sh | sh
+
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub io.github.nuttyartist.notes
+grub_install

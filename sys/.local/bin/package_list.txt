@@ -102,6 +102,7 @@ wine-mono
 wireless_tools
 wireguard-tools
 wireplumber
+wlsunset
 xdg-desktop-portal
 xdg-desktop-portal-hyprland
 xdg-user-dirs

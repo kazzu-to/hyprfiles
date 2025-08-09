@@ -89,7 +89,7 @@ button:hover {
 }
 
 #workspaces button:hover {
-     background: @transparent; 
+     background: @color5; 
      color: @cursor; 
     }
 
