@@ -1,43 +1,22 @@
--- [[ Setting options ]]
--- See `:help vim.opt`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
+--See ':help vim.opt'
+--For more options see ':help option-list'
 
--- Make line numbers default
-vim.opt.number = true
--- You can also add relative line numbers, to help with jumping.
---  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+local opt = vim.opt
 
--- Enable mouse mode, can be useful for resizing splits for example!
-vim.opt.mouse = 'a'
+--mouse support in all mode(visual, normal, insert)
+opt.mouse = 'a'
 
--- Don't show the mode, since it's already in the status line
-vim.opt.showmode = false
+--saves undo history even after closing files 
+opt.undofile = true
 
--- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
 
--- Enable break indent
-vim.opt.breakindent = true
+--smartcase finds only exact matching case if search starts with upper case
+opt.smartcase = true
+opt.ignorecase = true
 
--- Save undo history
-vim.opt.undofile = true
-
--- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-
--- Keep signcolumn on by default
-vim.opt.signcolumn = 'yes'
-
--- Decrease update time
-vim.opt.updatetime = 250
+--adds number in editor for each line
+opt.number = true
+opt.relativenumber = true
 
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
@@ -62,5 +41,7 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
--- vim: ts=2 sts=2 sw=2 et
 
+opt.signcolumn = 'yes'
+opt.smartindent = true
+opt.clipboard = 'unnamedplus'
