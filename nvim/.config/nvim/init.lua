@@ -12,3 +12,5 @@ require 'keymaps'
 -- [[ Setting options ]]
 require 'options'
 
+-- [[plugin]]
+require 'plugins'

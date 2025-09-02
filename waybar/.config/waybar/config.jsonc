@@ -103,9 +103,9 @@
 	"tooltip": true,
 	"tooltip-format": "{status_icon} {dynamic}\nMiddle Click: previous\nClick: Pause\nRight Click: Next",
 	"player-icons": {
-		"chromium": "",
+		"chromium": "",
 		"default": "",
-		"firefox": "",
+		"firefox": "",
 		"kdeconnect": "",
 		"mopidy": "",
 		"mpv": "󰐹",
@@ -119,7 +119,7 @@
 	},
 	"dynamic-order": ["title","artist"],
 	//"ignored-players": ["firefox", "zen"],
-	"max-length": 18
+	"max-length":20
 },   
 
 "idle_inhibitor": {

@@ -6,6 +6,7 @@ arc-gtk-theme
 asusctl
 base
 base-devel
+bash-language-server
 bc
 blueman
 brave-bin
@@ -70,6 +71,7 @@ pipewire-pulse
 polkit-gnome
 polkit-kde-agent
 python-pywal16
+pyright
 qt5-wayland
 qt5ct
 qt6-wayland

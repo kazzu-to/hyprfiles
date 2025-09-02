@@ -1,0 +1,25 @@
+
+#!/usr/bin/env bash
+
+walpy() {
+    pyscript="$HOME/.local/bin/unsplash.py"
+    if [ -f "$pyscript" ]; then
+        echo "Running unsplash.py..."
+        python -u "$pyscript"
+        echo "unsplash.py finished."
+    else
+        echo -e "\033[0;31munsplash.py not found at .local/bin\033[0m"
+    fi
+}
+
+echo "Calling walpy..."
+walpy
+echo "walpy finished."
+
+if command -v wal >/dev/null 2>&1; then 
+    echo "Running wal..."
+    wal -i "$HOME/.cache/wallpaper.jpg"
+    echo "wal finished."
+else 
+    echo -e "\033[0;31mwal command not found\033[0m"
+fi

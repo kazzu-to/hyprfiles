@@ -41,7 +41,16 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+--autocompletion
+
+vim.opt.completeopt = { "menuone", "noselect", "popup" }
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    vim.lsp.completion.enable(true, args.data.client_id, args.buf, { autotrigger = true })
+  end
+})
 
 opt.signcolumn = 'yes'
 opt.smartindent = true
 opt.clipboard = 'unnamedplus'
+
