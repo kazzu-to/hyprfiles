@@ -31,18 +31,21 @@ sudo pacman -S stow --noconfirm --needed
 stowupdate(){
 	command stow sys 
 	cd $HOME 
- 	if ! sysupdate; then
-    		echo -e "${RED}Couldn’t run sysupdate${NC}" >&2
-    		exit 2
+ 	if [ -f '$HOME/.local/bin/sysupdate' ]; then
+    		echo -e "${GREEN} running  sysupdate${NC}" >&2
+		cd $HOME/.local/bin/
+		./sysupdate
+		cd 
+	else
+		exit 2
   	fi
 }
 
 pkg(){
-	if command -v package-install &>/dev/null; then
-		if ! package-install; then
-     			 echo -e "${RED}Problem installing packages${NC}" >&2
-     			 exit 3
-    		fi
+	if [ -f $HOME/.local/bin/package-install ]; then
+		sudo $HOME/.local/bin/package-install
+		#if ! package-install; then
+     			 echo -e "${GREEN} installing packages${NC}" >&2
 	else 
 		echo -e "${RED}package-install not found at ~/.local/bin/ -check hyprfiles/sys/.local/bin${NC}"
 		exit 4

@@ -32,4 +32,3 @@ wget -qO- https://raw.githubusercontent.com/Rokin05/midnight-kde/master/install.
 
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install flathub io.github.nuttyartist.notes
-grub_install

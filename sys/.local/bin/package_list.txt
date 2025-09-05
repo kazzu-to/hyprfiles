@@ -1,6 +1,5 @@
 adobe-source-han-sans-otc-fonts
 amd-ucode
-an-anime-game-launcher-bin
 android-tools
 arc-gtk-theme
 asusctl
@@ -45,7 +44,6 @@ ly
 man-db
 meson
 midnight-gtk-theme-git
-mpc
 nano
 nemo
 neovim
@@ -72,6 +70,7 @@ pipewire-pulse
 polkit-gnome
 polkit-kde-agent
 python-pywal16
+python-requests
 pyright
 qt5-wayland
 qt5ct
