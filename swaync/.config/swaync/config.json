@@ -24,7 +24,7 @@
     "keyboard-shortcuts": true,
     "image-visibility": "when available",
     "transition-time": 200,
-    "hide-on-clear": false,
+    "hide-on-clear":true,
     "hide-on-action": true,
     "script-fail-notify": true,
     "widgets": [
@@ -54,7 +54,8 @@
             "label": "󰕾 "
         },
         "backlight": {
-            "label": "󰃟 "
+            "label": "󰃟 ",
+	    "device": "amdgpu_bl2"
         },
         "buttons-grid": {
             "actions": [
@@ -74,10 +75,6 @@
                     "command": "kitty nmtui"
                 },
                 {
-                    "label": "",
-                    "command": "blueman-manager"
-                },
-                {
                     "label":"󰤄",
                     "command": "swaync-client -d",
                     "type":"toggle"
@@ -88,21 +85,7 @@
                     "command": "gnome-network-displays"
                 },
 
-                {
-                    "label": "󰈙",
-                    "command": "kitty bash -i -c 'Docs'"
-                },
-                {
-                    "label": "",
-                    "command": "kitty bash -i -c 'Settings'"
-                    
-                },
-                {
-                    "label": "",
-                    "command": "kitty bash -i -c 'tasks'"
-
-                },
-                {
+               {
                     "label": "",
                     "command": "hyprlock"
                 },

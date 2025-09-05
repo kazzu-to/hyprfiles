@@ -17,6 +17,7 @@ eclipse-java-bin
 efibootmgr
 fastfetch
 flatpak
+fzf
 git
 grim
 grub
@@ -77,6 +78,7 @@ qt5ct
 qt6-wayland
 qt6ct
 reflector
+ripgrep
 rofi-wayland
 rog-control-center
 sbctl
@@ -89,6 +91,7 @@ swappy
 swaync
 swww
 sxiv
+systemd-timer-notify
 tokyonight-gtk-theme-git
 tree
 ufw

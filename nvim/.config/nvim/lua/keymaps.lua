@@ -21,7 +21,8 @@ map('n', '<leader>ts', '<cmd>set spell!<CR>', 'Toggle spell')
 map('n', '<leader>/', '<cmd>nohlsearch<CR>', 'Clear search highlight')
 
 -- 6: Explorer (netrw)
-map('n', '<leader>e', '<cmd>Ex<CR>', 'Open file explorer')
+--map('n', '<leader>e', '<cmd>Ex<CR>', 'Open file explorer')
+map('n', '<leader>e', '<cmd>NvimTreeFindFileToggle<CR>', 'Open  nvim-tree file explorer')
 
 -- 7–10: Buffers
 map('n', ']b', '<cmd>bnext<CR>', 'Next buffer')
@@ -46,8 +47,8 @@ map('n', '<C-Left>',  '<cmd>vertical resize -2<CR>', 'Shrink width')
 map('n', '<C-Right>', '<cmd>vertical resize +2<CR>', 'Grow width')
 
 -- 15–16: System clipboard
-map('v', '<leader>y', '"+y', 'Yank to clipboard')
-map('n', '<leader>p', '"+p', 'Paste from clipboard')
+map('v', '<leader>y', '+y', 'Yank to clipboard')
+map('n', '<leader>p', '+p', 'Paste from clipboard')
 
 -- 17: Move current line
 map('n', '<A-j>', ':m .+1<CR>==', 'Move line down')
@@ -67,5 +68,21 @@ map('n', '<leader>=', 'gg=G', 'Reindent file')
 -- 20: Replace word under cursor
 map('n', '<leader>r', [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]], 'Replace word under cursor')
 
---vim.keymap.del('n', '<leader>s')
+-- going to last opened file 
+vim.keymap.set('n', '<leader>l', '<C-^>', {desc = 'Switch to last file'})
 
+
+--telescope 
+local ok, builtin = pcall(require, 'telescope.builtin')
+if ok then  
+	vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+	vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
+	vim.keymap.set('n', '<leader>km', builtin.keymaps, { desc = 'list all keymaps in normal mode' })
+	vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
+	vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+	vim.keymap.set('n', '<leader>of', builtin.oldfiles, { desc = 'list previously opened files' })
+	vim.keymap.set('n', '<leader>gc', builtin.git_commits,  {desc = 'Lists git commits with diff preview, checkout action <cr>, reset mixed <C-r>m, reset soft <C-r>s and reset hard <C-r>h'})
+	vim.keymap.set('n', '<leader>bc', builtin.git_bcommits,  {desc = 'Lists buffers git commits with diff preview and checks them out on <cr>'})
+	vim.keymap.set('n', '<leader>gb', builtin.git_branches,  {desc = 'Lists all branches with log preview, checkout action <cr>, track action <C-t>, rebase action<C-r>, create action <C-a>, switch action <C-s>, delete action <C-d> and merge action <C-y>'})
+	vim.keymap.set('n', '<leader>gs', builtin.git_status,  {desc = 'Lists current changes per file with diff preview and add action. (Multi-selection still WIP)'})
+end

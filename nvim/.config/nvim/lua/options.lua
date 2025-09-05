@@ -53,4 +53,4 @@ vim.api.nvim_create_autocmd('LspAttach', {
 opt.signcolumn = 'yes'
 opt.smartindent = true
 opt.clipboard = 'unnamedplus'
-
+opt.winborder = "rounded"
