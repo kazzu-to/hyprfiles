@@ -1,0 +1,33 @@
+[config]
+[general]
+# Path to youur wallpaper or image for color extraction
+wallpaper = "~/.cache/wallpaper.jpg"
+
+[templates.kitty]
+input_path  = "~/.config/matugen/templates/kitty-colors.conf"
+output_path = "~/.config/kitty/colors.conf"
+post_hook   = "pkill -SIGUSR1 kitty"
+
+[templates.hyprland]
+input_path  = "~/.config/matugen/templates/hyprland-colors.conf"
+output_path = "~/.config/hypr/colors.conf"
+post_hook   = "hyprctl reload"
+
+[templates.ghostty]
+input_path  = "~/.config/matugen/templates/ghostty-theme.conf"
+output_path = "~/.config/ghostty/matugen-theme.conf"
+
+[templates.tty]
+input_path  = "~/.config/matugen/templates/tty-colors.sh"
+output_path = "~/.config/matugen/tty-colors.sh"
+post_hook   = "bash ~/.config/matugen/tty-colors.sh"
+
+
+[templates.gtk3]
+input_path = '~/.config/matugen/templates/gtk3-colors.css'
+output_path = '~/.config/gtk-3.0/colors.css'
+post_hook = 'gsettings set org.gnome.desktop.interface gtk-theme ""; gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-{{mode}}'
+
+[templates.gtk4]
+input_path = '~/.config/matugen/templates/gtk4-colors.css'
+output_path = '~/.config/gtk-4.0/colors.css'

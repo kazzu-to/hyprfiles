@@ -1,0 +1,67 @@
+#! /usr/bin/env bash
+
+set -e
+echo "This script needs sudo privs. Please enter your password."
+sudo -v
+# Background job: refresh sudo timestamp every minute
+{
+  while true; do
+    sleep 60
+    sudo -v
+  done
+} &
+SUDO_REFRESH_PID=$!
+# Optionally trap EXIT to kill the background refresher
+cleanup() {
+  kill $SUDO_REFRESH_PID
+}
+trap cleanup EXIT
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+function error {
+	if [[ $? -ne 0 ]]; then
+		echo $2
+		exit $1
+	fi
+}
+
+bootmgr=$(pacman -Qq | grep refind)
+
+if [ "$bootmgr" != "refind" ]; then
+	echo -e "{RED}refind not found{NC}"
+	read "Do you want to install refind [Y/n]" inp
+	echo  		#new line
+	inp=$(inp:-Y)  #set default input
+	case "$inp" in
+		[Yn] )
+			sudo pacman -S refind --noconfirm
+			break
+			;;
+		[Nn] )
+			echo -e "{RED}exiting..{NC}"
+			break
+			;;
+		* )
+			echo -e "{RED}not valid option exiting..{NC}"
+			;;
+	esac
+
+	
+fi
+
+themedir="$HOME/hyprfiles/rEFInd-RetroGame"
+destdir="/boot/EFI/refind/themes/"
+
+if command -v refind-install &> /dev/null ; then
+	sudo refind-install
+	echo -e "{GREEN}refiend installed{NC}"
+	if [ ! -f "$destdir"]; then
+		sudo mkdir -p "$destdir"
+	fi
+	sudo cp -r "$themedir" "$destdir"
+	sudo echo "include themes/rEFInd-RetroGame/theme.conf" >> /boot/EFI/refind/refind.conf 
+	echo -e "{GREEN}Finished{NC}"
+fi

@@ -1,23 +1,31 @@
 
 #!/usr/bin/env bash
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+setwal=$(dms ipc call wallpaper set "$HOME/.cache/wallpaper.jpg")
+dmskill=$(dms kill)
+
 walpy() {
     pyscript="$HOME/.local/bin/unsplash.py"
     if [ -f "$pyscript" ]; then
-        echo "Running unsplash.py..."
+        echo -e "{GREEN}Running unsplash.py...{NC}"
         python -u "$pyscript"
-        echo "unsplash.py finished."
     else
         echo -e "\033[0;31munsplash.py not found at .local/bin\033[0m"
     fi
 }
 
-echo "Calling walpy..."
 walpy
-echo "walpy finished."
 
-if command -v wal >/dev/null 2>&1; then 
+if command -v wal  >/dev/null 2>&1; then 
     echo "Running wal..."
+    $setwal
+    $dmsrel
+    dms run & 
+    disown
     wal -i "$HOME/.cache/wallpaper.jpg"
     echo "wal finished."
 else 

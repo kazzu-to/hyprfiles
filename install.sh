@@ -31,7 +31,7 @@ sudo pacman -S stow --noconfirm --needed
 stowupdate(){
 	command stow sys 
 	cd $HOME 
- 	if [ -f '$HOME/.local/bin/sysupdate' ]; then
+ 	if [ -f "$HOME/.local/bin/sysupdate" ]; then
     		echo -e "${GREEN} running  sysupdate${NC}" >&2
 		cd $HOME/.local/bin/
 		./sysupdate
@@ -42,7 +42,7 @@ stowupdate(){
 }
 
 pkg(){
-	if [ -f $HOME/.local/bin/package-install ]; then
+	if [ -f "$HOME/.local/bin/package-install" ]; then
 		sudo $HOME/.local/bin/package-install
 		#if ! package-install; then
      			 echo -e "${GREEN} installing packages${NC}" >&2
@@ -62,7 +62,7 @@ enable_services(){
 }
 
 grub() {
-	if [[ -f $HOME/.local/bin/grub_install ]]; then
+	if [[ -f "$HOME/.local/bin/grub_install" ]]; then
 		sudo chmod +s $HOME/.local/bin/grub_install
 		sudo $HOME/.local/bin/grub_install
 	else 
@@ -78,7 +78,7 @@ grub() {
 
 
 #stowupdate
-pkg
-grub
+#pkg
+#grub
 enable_services
 gsettings set org.gnome.desktop.interface gtk-theme "Midnight-Gray"

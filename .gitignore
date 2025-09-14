@@ -1,0 +1,6 @@
+sys/.local/share/
+sys/.local/state/
+gtk-theme/.config/gtk-3.0/colors.css
+gtk-theme/.config/gtk-3.0/dank-colors.css
+gtk-theme/.config/gtk-4.0/colors.css
+gtk-theme/.config/gtk-4.0/dank-colors.css

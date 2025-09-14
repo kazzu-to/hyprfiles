@@ -1,7 +1,39 @@
 #! /bin/bash
 
+
+echo "This script needs sudo privs. Please enter your password."
+sudo -v
+# Background job: refresh sudo timestamp every minute
+{
+  while true; do
+    sleep 60
+    sudo -v
+  done
+} &
+SUDO_REFRESH_PID=$!
+# Optionally trap EXIT to kill the background refresher
+cleanup() {
+  kill $SUDO_REFRESH_PID
+}
+trap cleanup EXIT
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
 package_path="/home/kazzu/.local/bin/package_list.txt"
 
+function helper(){
+	if command -v paru &> /dev/null ; then
+		echo -e "{GREEN}using paru..{NC}"
+	elif command -v yay &> /dev/null ; then
+		echo -e "{GREEN}using yay..{NC}"
+	else
+		echo -e "{RED} Neither paru nor yay command found exiting..{NC}"
+		exit 1
+	fi
+}
+helper
 
 if [[ ! -f "$package_path" ]]; then
     echo "$package_path not found"
@@ -11,12 +43,14 @@ fi
 if command -v sysupdate &> /dev/null ; then
 	sysupdate 
 else 
-	sudo pacman -S git stow --noconfirm --needed
-	git clone https://github.com/kazzu-to/hyprfiles
-	cd hyprfiles
-	stow sys 
-	cd $HOME
-	sysupdate
+	#sudo pacman -S git stow --noconfirm --needed
+	#git clone https://github.com/kazzu-to/hyprfiles
+	#cd hyprfiles
+	#stow sys 
+	#cd $HOME
+	#./sysupdate
+	echo -e "{RED}sysupdate not found at ~/.local/bin or shell PATH not configured"
+	exit 2
 fi
 
 mapfile -t packages < "$package_path"
@@ -24,11 +58,23 @@ mapfile -t packages < "$package_path"
 for item in "${packages[@]}" ; do
 	sudo pacman -S "$item" --noconfirm --needed
 	if [[ $? -ne 0 ]]; then 
-		echo "1" | yay $item --noconfirm --needed 
+		echo "1" | paru --skipreview -S  $item --noconfirm --needed 
+		#echo "1" | yay  $item --noconfirm --needed 
 	fi
 done 
 
-wget -qO- https://raw.githubusercontent.com/Rokin05/midnight-kde/master/install.sh | sh
+function colloid(){
+	cd "$HOME/.cache/"
+	git clone https://github.com/vinceliuice/Colloid-gtk-theme.git
+	cd Colloid-gtk-theme
+	sudo ./install.sh
+	cd ..
+	rm -rf Colloid-gtk-theme.git
+	echo -e "{GREEN}Installed colloid{NC}"
+}
 
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub io.github.nuttyartist.notes
+wget -qO- https://raw.githubusercontent.com/Rokin05/midnight-kde/master/install.sh | sh
+colloid
+
+#flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+#flatpak install flathub io.github.nuttyartist.notes
