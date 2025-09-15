@@ -101,6 +101,10 @@
       "enabled": true
     },
     {
+      "id": "idleInhibitor",
+      "enabled": true
+    },
+    {
       "id": "cpuUsage",
       "enabled": true
     },
