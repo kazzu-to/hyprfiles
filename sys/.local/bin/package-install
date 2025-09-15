@@ -2,6 +2,7 @@
 
 
 echo "This script needs sudo privs. Please enter your password."
+sudo -k
 sudo -v
 # Background job: refresh sudo timestamp every minute
 {
@@ -43,6 +44,8 @@ fi
 if command -v sysupdate &> /dev/null ; then
 	sysupdate 
 else 
+	cd "$HOME/.local/bin"
+	sudo ./sysupdate
 	#sudo pacman -S git stow --noconfirm --needed
 	#git clone https://github.com/kazzu-to/hyprfiles
 	#cd hyprfiles
@@ -50,7 +53,7 @@ else
 	#cd $HOME
 	#./sysupdate
 	echo -e "{RED}sysupdate not found at ~/.local/bin or shell PATH not configured"
-	exit 2
+	
 fi
 
 mapfile -t packages < "$package_path"

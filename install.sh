@@ -2,6 +2,7 @@
 
 
 # Ask for the password up front and refresh every minute.
+sudo -k 
 sudo -v
 # Start a background job to refresh the timestamp until the script exits.
 ( while true; do sudo -n true; sleep 60; done ) &

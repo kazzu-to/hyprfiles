@@ -4,3 +4,6 @@ gtk-theme/.config/gtk-3.0/colors.css
 gtk-theme/.config/gtk-3.0/dank-colors.css
 gtk-theme/.config/gtk-4.0/colors.css
 gtk-theme/.config/gtk-4.0/dank-colors.css
+kitty/.config/kitty/colors.conf
+kitty/.config/kitty/dank-theme.conf
+qt-theme/.config/qt6ct/colors/matugen.conf
