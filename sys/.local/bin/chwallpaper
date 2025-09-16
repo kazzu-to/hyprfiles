@@ -11,7 +11,7 @@ dmskill=$(dms kill)
 walpy() {
     pyscript="$HOME/.local/bin/unsplash.py"
     if [ -f "$pyscript" ]; then
-        echo -e "{GREEN}Running unsplash.py...{NC}"
+        echo -e "${GREEN}Running unsplash.py...${NC}"
         python -u "$pyscript"
     else
         echo -e "\033[0;31munsplash.py not found at .local/bin\033[0m"
