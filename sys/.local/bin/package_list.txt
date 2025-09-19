@@ -38,6 +38,7 @@ intel-media-driver
 iwd
 jdk-openjdk
 kdeconnect
+kooha
 kitty
 libpulse
 librewolf-bin
