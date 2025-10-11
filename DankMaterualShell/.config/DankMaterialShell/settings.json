@@ -1,9 +1,10 @@
 {
   "currentThemeName": "dynamic",
   "customThemeFile": "",
-  "topBarTransparency": 0.25,
-  "topBarWidgetTransparency": 1,
-  "popupTransparency": 0.71,
+  "matugenScheme": "scheme-content",
+  "dankBarTransparency": 0.9,
+  "dankBarWidgetTransparency": 0.6,
+  "popupTransparency": 0.89,
   "dockTransparency": 0.2,
   "use24HourClock": true,
   "useFahrenheit": false,
@@ -32,10 +33,52 @@
   "controlCenterShowNetworkIcon": true,
   "controlCenterShowBluetoothIcon": true,
   "controlCenterShowAudioIcon": true,
+  "controlCenterWidgets": [
+    {
+      "id": "volumeSlider",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "brightnessSlider",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "wifi",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "bluetooth",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "audioOutput",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "audioInput",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "nightMode",
+      "enabled": true,
+      "width": 50
+    },
+    {
+      "id": "darkMode",
+      "enabled": true,
+      "width": 50
+    }
+  ],
   "showWorkspaceIndex": false,
   "showWorkspacePadding": false,
   "showWorkspaceApps": true,
-  "maxWorkspaceIcons": 3,
+  "maxWorkspaceIcons": 5,
   "workspacesPerMonitor": true,
   "workspaceNameIcons": {},
   "waveProgressEnabled": true,
@@ -46,7 +89,7 @@
   "clockDateFormat": "",
   "lockDateFormat": "",
   "mediaSize": 1,
-  "topBarLeftWidgets": [
+  "dankBarLeftWidgets": [
     {
       "id": "launcherButton",
       "enabled": true
@@ -66,9 +109,13 @@
     {
       "id": "systemUpdate",
       "enabled": true
+    },
+    {
+      "id": "network_speed_monitor",
+      "enabled": true
     }
   ],
-  "topBarCenterWidgets": [
+  "dankBarCenterWidgets": [
     {
       "id": "spacer",
       "enabled": true,
@@ -91,11 +138,7 @@
       "enabled": true
     }
   ],
-  "topBarRightWidgets": [
-    {
-      "id": "network_speed_monitor",
-      "enabled": true
-    },
+  "dankBarRightWidgets": [
     {
       "id": "systemTray",
       "enabled": true
@@ -133,37 +176,55 @@
   "spotlightModalViewMode": "grid",
   "networkPreference": "auto",
   "iconTheme": "Tokyonight-Dark-Cyan",
-  "useOSLogo": true,
-  "osLogoColorOverride": "",
-  "osLogoBrightness": 0.5,
-  "osLogoContrast": 1,
-  "wallpaperDynamicTheming": true,
+  "launcherLogoMode": "os",
+  "launcherLogoCustomPath": "",
+  "launcherLogoColorOverride": "",
+  "launcherLogoColorInvertOnMode": false,
+  "launcherLogoBrightness": 0.5,
+  "launcherLogoContrast": 1,
+  "launcherLogoSizeOffset": 0,
   "fontFamily": "FiraCode Nerd Font Mono",
   "monoFontFamily": "Fira Code",
   "fontWeight": 400,
   "fontScale": 1,
+  "dankBarFontScale": 1,
   "notepadUseMonospace": true,
   "notepadFontFamily": "",
   "notepadFontSize": 14,
+  "notepadShowLineNumbers": false,
+  "notepadTransparencyOverride": -1,
+  "notepadLastCustomTransparency": 0.95,
   "gtkThemingEnabled": false,
   "qtThemingEnabled": true,
   "showDock": false,
   "dockAutoHide": true,
-  "cornerRadius": 12,
+  "dockGroupByApp": false,
+  "dockOpenOnOverview": false,
+  "dockPosition": 1,
+  "dockSpacing": 4,
+  "dockBottomGap": 0,
+  "cornerRadius": 20,
   "notificationOverlayEnabled": false,
-  "topBarAutoHide": false,
-  "topBarOpenOnOverview": false,
-  "topBarVisible": true,
-  "topBarSpacing": 0,
-  "topBarBottomGap": 0,
-  "topBarInnerPadding": 8,
-  "topBarSquareCorners": false,
-  "topBarNoBackground": false,
-  "topBarGothCornersEnabled": true,
+  "dankBarAutoHide": false,
+  "dankBarOpenOnOverview": false,
+  "dankBarVisible": true,
+  "dankBarSpacing": 0,
+  "dankBarBottomGap": 0,
+  "dankBarInnerPadding": 8,
+  "dankBarSquareCorners": true,
+  "dankBarNoBackground": false,
+  "dankBarGothCornersEnabled": false,
+  "dankBarBorderEnabled": false,
+  "dankBarPosition": 2,
   "lockScreenShowPowerActions": true,
   "hideBrightnessSlider": false,
+  "widgetBackgroundColor": "sth",
+  "surfaceBase": "s",
   "notificationTimeoutLow": 5000,
   "notificationTimeoutNormal": 5000,
   "notificationTimeoutCritical": 0,
-  "screenPreferences": {}
+  "notificationPopupPosition": 0,
+  "osdAlwaysShowValue": false,
+  "screenPreferences": {},
+  "animationSpeed": 2
 }

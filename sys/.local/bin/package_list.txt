@@ -2,7 +2,6 @@ adobe-source-han-sans-otc-fonts
 amd-ucode
 android-tools
 arc-gtk-theme
-asusctl
 base
 base-devel
 bash-language-server
@@ -23,6 +22,7 @@ fastfetch
 fish
 flatpak
 fzf
+gammastep
 ghostty
 git
 grim
@@ -34,7 +34,6 @@ gvfs-smb
 hypridle
 hyprland
 hyprpolkitagent
-intel-media-driver
 iwd
 jdk-openjdk
 kdeconnect
@@ -50,6 +49,7 @@ man-db
 matugen-bin
 meson
 midnight-gtk-theme-git
+mpv
 nano
 nemo
 neovim-nightly-bin
@@ -95,7 +95,6 @@ quickshell-git
 refind
 reflector
 ripgrep
-rog-control-center
 sassc
 sbctl
 scdoc
@@ -184,3 +183,4 @@ xdg-user-dirs-gtk
 xf86-video-amdgpu
 yazi
 zram-generator
+gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav
