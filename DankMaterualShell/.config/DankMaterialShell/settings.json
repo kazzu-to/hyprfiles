@@ -1,13 +1,14 @@
 {
   "currentThemeName": "dynamic",
   "customThemeFile": "",
-  "matugenScheme": "scheme-content",
+  "matugenScheme": "scheme-rainbow",
+  "runUserMatugenTemplates": false,
   "dankBarTransparency": 0.9,
   "dankBarWidgetTransparency": 0.6,
   "popupTransparency": 0.89,
   "dockTransparency": 0.2,
   "use24HourClock": true,
-  "useFahrenheit": false,
+  "useFahrenheit": true,
   "nightModeEnabled": false,
   "weatherLocation": "40.7128, -74.0060",
   "weatherCoordinates": "40.7128,-74.0060",
@@ -88,7 +89,7 @@
   "runningAppsCurrentWorkspace": true,
   "clockDateFormat": "",
   "lockDateFormat": "",
-  "mediaSize": 1,
+  "mediaSize": 2,
   "dankBarLeftWidgets": [
     {
       "id": "launcherButton",
@@ -108,10 +109,6 @@
     },
     {
       "id": "systemUpdate",
-      "enabled": true
-    },
-    {
-      "id": "network_speed_monitor",
       "enabled": true
     }
   ],
@@ -136,6 +133,10 @@
     {
       "id": "vpn",
       "enabled": true
+    },
+    {
+      "id": "network_speed_monitor",
+      "enabled": true
     }
   ],
   "dankBarRightWidgets": [
@@ -153,10 +154,6 @@
     },
     {
       "id": "cpuUsage",
-      "enabled": true
-    },
-    {
-      "id": "memUsage",
       "enabled": true
     },
     {
@@ -185,7 +182,7 @@
   "launcherLogoSizeOffset": 0,
   "fontFamily": "FiraCode Nerd Font Mono",
   "monoFontFamily": "Fira Code",
-  "fontWeight": 400,
+  "fontWeight": 500,
   "fontScale": 1,
   "dankBarFontScale": 1,
   "notepadUseMonospace": true,
@@ -203,7 +200,7 @@
   "dockPosition": 1,
   "dockSpacing": 4,
   "dockBottomGap": 0,
-  "cornerRadius": 20,
+  "cornerRadius": 19,
   "notificationOverlayEnabled": false,
   "dankBarAutoHide": false,
   "dankBarOpenOnOverview": false,
@@ -211,14 +208,17 @@
   "dankBarSpacing": 0,
   "dankBarBottomGap": 0,
   "dankBarInnerPadding": 8,
-  "dankBarSquareCorners": true,
-  "dankBarNoBackground": false,
-  "dankBarGothCornersEnabled": false,
+  "dankBarSquareCorners": false,
+  "dankBarNoBackground": true,
+  "dankBarGothCornersEnabled": true,
   "dankBarBorderEnabled": false,
+  "dankBarBorderColor": "secondary",
+  "dankBarBorderOpacity": 0.22,
+  "dankBarBorderThickness": 1,
   "dankBarPosition": 2,
   "lockScreenShowPowerActions": true,
   "hideBrightnessSlider": false,
-  "widgetBackgroundColor": "sth",
+  "widgetBackgroundColor": "s",
   "surfaceBase": "s",
   "notificationTimeoutLow": 5000,
   "notificationTimeoutNormal": 5000,
