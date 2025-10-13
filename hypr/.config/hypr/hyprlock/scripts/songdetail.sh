@@ -2,4 +2,4 @@
 
 song_info=$(playerctl metadata --format '{{title}}')
 
-echo "$song_info"
+echo "| $song_info"
