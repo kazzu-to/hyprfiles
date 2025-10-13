@@ -8,7 +8,6 @@ vim.pack.add({
 })
 
 
-local lsp = require('lspconfig')
 local lualine = require('lualine')
 
 lualine.setup {
@@ -17,16 +16,12 @@ lualine.setup {
   },
 }
 
--- Java LSP (Eclipse JDT LS)
-lsp.jdtls.setup({
-  cmd = { 'jdtls' },
-  root_dir = lsp.util.root_pattern('.git', 'mvnw', 'gradlew', 'pom.xml', 'build.gradle'),
+vim.lsp.config('rust_analyzer', {
+  -- Server-specific settings. See `:help lsp-quickstart`
+  settings = {
+    ['rust-analyzer'] = {},
+  },
 })
-
--- Enable LSP configs
-vim.lsp.enable('pyright')   -- Python
-vim.lsp.enable('clangd')    -- C++
-vim.lsp.enable('bashls')    -- Bash
 
 -- treesitter syntex highlighting
 require('nvim-treesitter.configs').setup {

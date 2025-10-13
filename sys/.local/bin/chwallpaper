@@ -27,6 +27,7 @@ if command -v wal  >/dev/null 2>&1; then
     dms run & 
     disown
     wal -i "$HOME/.cache/wallpaper.jpg"
+    matugen image "$HOME/.cache/wallpaper.jpg"
     echo "wal finished."
 else 
     echo -e "\033[0;31mwal command not found\033[0m"
