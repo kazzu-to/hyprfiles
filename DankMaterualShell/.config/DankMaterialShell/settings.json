@@ -1,14 +1,14 @@
 {
   "currentThemeName": "dynamic",
   "customThemeFile": "",
-  "matugenScheme": "scheme-rainbow",
+  "matugenScheme": "scheme-content",
   "runUserMatugenTemplates": false,
   "dankBarTransparency": 1,
   "dankBarWidgetTransparency": 1,
   "popupTransparency": 0.99,
   "dockTransparency": 0.2,
   "use24HourClock": true,
-  "useFahrenheit": true,
+  "useFahrenheit": false,
   "nightModeEnabled": false,
   "weatherLocation": "40.7128, -74.0060",
   "weatherCoordinates": "40.7128,-74.0060",
@@ -96,11 +96,11 @@
       "enabled": true
     },
     {
-      "id": "privacyIndicator",
+      "id": "workspaceSwitcher",
       "enabled": true
     },
     {
-      "id": "workspaceSwitcher",
+      "id": "privacyIndicator",
       "enabled": true
     },
     {
@@ -171,7 +171,7 @@
   ],
   "appLauncherViewMode": "grid",
   "spotlightModalViewMode": "grid",
-  "networkPreference": "auto",
+  "networkPreference": "wifi",
   "iconTheme": "Tokyonight-Dark-Cyan",
   "launcherLogoMode": "os",
   "launcherLogoCustomPath": "",
@@ -195,7 +195,7 @@
   "qtThemingEnabled": true,
   "showDock": false,
   "dockAutoHide": true,
-  "dockGroupByApp": false,
+  "dockGroupByApp": true,
   "dockOpenOnOverview": false,
   "dockPosition": 1,
   "dockSpacing": 4,
@@ -207,14 +207,16 @@
   "dankBarVisible": true,
   "dankBarSpacing": 0,
   "dankBarBottomGap": 0,
-  "dankBarInnerPadding": 8,
+  "dankBarInnerPadding": 4,
   "dankBarSquareCorners": true,
-  "dankBarNoBackground": true,
+  "dankBarNoBackground": false,
   "dankBarGothCornersEnabled": true,
   "dankBarBorderEnabled": false,
   "dankBarBorderColor": "primary",
   "dankBarBorderOpacity": 0.49,
   "dankBarBorderThickness": 3,
+  "popupGapsAuto": true,
+  "popupGapsManual": 4,
   "dankBarPosition": 2,
   "lockScreenShowPowerActions": true,
   "hideBrightnessSlider": false,
@@ -225,6 +227,9 @@
   "notificationTimeoutCritical": 0,
   "notificationPopupPosition": 0,
   "osdAlwaysShowValue": false,
+  "updaterUseCustomCommand": false,
+  "updaterCustomCommand": "",
+  "updaterTerminalAdditionalParams": "",
   "screenPreferences": {},
   "animationSpeed": 2
 }
