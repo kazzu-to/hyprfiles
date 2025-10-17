@@ -12,6 +12,7 @@ album_art_url=$(playerctl metadata --format '{{ mpris:artUrl }}')
 
 # Check if the album art URL is available
 if [ -z "$album_art_url" ]; then
+	cp $HOME/.config/hypr/hyprlock/icons/pasted-music.png /tmp/albumart.png
     echo "No media is currently playing or no album art is available."
     exit 1
 fi
