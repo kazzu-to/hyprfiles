@@ -1,29 +1,59 @@
 
 #!/usr/bin/env bash
+set -euo pipefail
 
-# Check if playerctl is installed
-if ! command -v playerctl &> /dev/null; then
-    echo "playerctl is not installed. Please install it first."
-    exit 1
+TARGET="/tmp/albumart.png"
+FALLBACK="$HOME/.config/hypr/hyprlock/icons/pasted-music.png"
+
+# require playerctl
+if ! command -v playerctl >/dev/null 2>&1; then
+  echo "playerctl not found" >&2
+  cp "$FALLBACK" "$TARGET"
+  exit 1
 fi
 
-# Get the album art (cover image) URL using playerctl
-album_art_url=$(playerctl metadata --format '{{ mpris:artUrl }}')
+# find playing player's art URL
+album_art_url=""
+while IFS= read -r p; do
+  [ -z "$p" ] && continue
+  status="$(playerctl -p "$p" status 2>/dev/null || true)"
+  if [[ "$status" == "Playing" ]]; then
+    url="$(playerctl -p "$p" metadata --format '{{ mpris:artUrl }}' 2>/dev/null || true)"
+    if [[ "$p" == "spotify" ]]; then
+      url="$(echo "$url" | sed 's|https://open.spotify.com/image/|https://i.scdn.co/image/|')"
+    fi
+    album_art_url=${url#\"}
+    album_art_url=${album_art_url%\"}
+    break
+  fi
+done <<< "$(playerctl -l 2>/dev/null || true)"
 
-# Check if the album art URL is available
-if [ -z "$album_art_url" ]; then
-	cp $HOME/.config/hypr/hyprlock/icons/pasted-music.png /tmp/albumart.png
-    echo "No media is currently playing or no album art is available."
-    exit 1
+# if no url, install fallback and exit
+if [ -z "${album_art_url:-}" ]; then
+  cp "$FALLBACK" "$TARGET"
+  chmod 644 "$TARGET"
+  exit 1
 fi
 
-# Download the album art and store it in /tmp/albumart.png
-curl -s "$album_art_url" -o /tmp/albumart.png
+# download to temp file
+tmp_download="$(mktemp --suffix=.download)"
+trap 'rm -f "$tmp_download" "$tmp_download.png" >/dev/null 2>&1' EXIT
 
-# Check if the download was successful
-if [ $? -eq 0 ]; then
-    echo "Album art saved to /tmp/albumart.png"
+if ! curl -fLsS --max-time 8 "$album_art_url" -o "$tmp_download"; then
+  cp "$FALLBACK" "$TARGET"
+  chmod 644 "$TARGET"
+  exit 1
+fi
+
+# magick to PNG (requires ImageMagick convert); if convert missing, try fallback
+if command -v magick >/dev/null 2>&1; then
+  # write conversion output to a new temp file to keep atomicity
+  magick "$tmp_download" "$tmp_download.png"
+  mv -f "$tmp_download.png" "$TARGET"
 else
-    echo "Failed to download album art."
-    exit 1
+  # no magick available — try to move downloaded file as-is (hyprlock may support it)
+  mv -f "$tmp_download" "$TARGET"
 fi
+
+chmod 644 "$TARGET"
+exit 0
