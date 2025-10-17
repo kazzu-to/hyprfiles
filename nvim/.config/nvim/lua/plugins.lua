@@ -23,6 +23,23 @@ vim.lsp.config('rust_analyzer', {
   },
 })
 
+vim.lsp.config('pyright', {
+  cmd = { 'pyright-langserver', '--stdio' },
+  filetypes = { 'python' },
+  settings = {
+    python = {
+      analysis = {
+        typeCheckingMode = "off",
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true,
+      },
+    },
+  }})
+
+vim.lsp.enable('pyright')
+vim.lsp.enable('rust_analyzer')
+vim.lsp.inline_completion.enable(true)
+
 -- treesitter syntex highlighting
 require('nvim-treesitter.configs').setup {
   ensure_installed = { "python", "cpp", "bash", "lua", "c", "markdown" },
@@ -32,3 +49,5 @@ require('nvim-treesitter.configs').setup {
 
 require('nvim-tree').setup {}
 vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>')
+
+

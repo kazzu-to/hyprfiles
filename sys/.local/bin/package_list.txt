@@ -89,7 +89,6 @@ pyright
 python-pywal16
 python-requests
 qt5-wayland
-qt5ct
 qt6ct-kde
 quickshell-git
 refind
