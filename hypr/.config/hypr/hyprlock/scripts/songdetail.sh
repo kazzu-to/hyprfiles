@@ -22,5 +22,5 @@ if [[ -n $first_player ]]; then
   song_info=$(playerctl -p "$first_player" metadata --format '{{artist}} - {{title}}' 2>/dev/null)
   echo "| $song_info (status: $status)"
 else
-  echo "| no media players found"
+  echo " "
 fi

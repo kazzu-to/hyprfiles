@@ -1,85 +1,102 @@
-#!/usr/bin/env bash 
 
+#!/usr/bin/env bash
 
-# Ask for the password up front and refresh every minute.
-sudo -k 
+# Ask for the password up front and refresh every minute
+sudo -k
 sudo -v
-# Start a background job to refresh the timestamp until the script exits.
+# Start a background job to refresh the sudo timestamp until the script exits
 ( while true; do sudo -n true; sleep 60; done ) &
 KEEPALIVE_PID=$!
 
 # Ensure we kill the background job on exit
 trap 'kill $KEEPALIVE_PID' EXIT
 
-
+# --- Colors ---
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
+
+# --- Install stow ---
 sudo pacman -S stow --noconfirm --needed
 
-#cprepo(){
-#	echo -e "${GREEN}cloning hyprfiles${NC}"	
-#	cd $HOME
-#	sudo pacman -S git stow --noconfirm --needed 
-#	git clone https://github.com/kazzu-to/hyprfiles
-#	
-#	if [[ $? -ne 0 ]]; then
-#		echo -e  "${RED}could not clone repo${NC}"
-#		exit 1
-#	fi
-#}
+# --- Functions ---
+stowupdate() {
+    default_path="$HOME/hyprfiles"
+    read -ep "$(echo -e "${GREEN}Enter path of cloned hyprfiles repo [${default_path}]: ${NC}")" loc
+    loc=${loc:-$default_path}
 
-stowupdate(){
-	command stow sys 
-	cd $HOME 
- 	if [ -f "$HOME/.local/bin/sysupdate" ]; then
-    		echo -e "${GREEN} running  sysupdate${NC}" >&2
-		cd $HOME/.local/bin/
-		./sysupdate
-		cd 
-	else
-		exit 2
-  	fi
+    cd "$loc" || { echo -e "${RED}Path not found: $loc${NC}"; exit 1; }
+
+    command stow sys
+
+    if [[ -f "$HOME/.local/bin/sysupdate" ]]; then
+        echo -e "${GREEN}Running sysupdate${NC}"
+        bash "$HOME/.local/bin/sysupdate"
+    else
+        echo -e "${RED}sysupdate script not found${NC}"
+        exit 2
+    fi
 }
 
-pkg(){
-	if [ -f "$HOME/.local/bin/package-install" ]; then
-		sudo $HOME/.local/bin/package-install
-		#if ! package-install; then
-     			 echo -e "${GREEN} installing packages${NC}" >&2
-	else 
-		echo -e "${RED}package-install not found at ~/.local/bin/ -check hyprfiles/sys/.local/bin${NC}"
-		exit 4
-	fi
+pkg() {
+    if [[ -f "$HOME/.local/bin/package-install" ]]; then
+        echo -e "${GREEN}Installing packages${NC}"
+        sudo -H bash "$HOME/.local/bin/package-install"
+    else
+        echo -e "${RED}package-install not found at ~/.local/bin/${NC}"
+        exit 4
+    fi
 }
 
-enable_services(){
-	list=(bluetooth ly ufw)
-	for ser in "${list[@]}" ; do
-		if ! sudo systemctl enable "$ser" ; then
-			echo -e "${RED}Couldn’t enable $svc${NC}"
-		fi
-	done
+enable_services() {
+    list=(bluetooth ly ufw)
+    for svc in "${list[@]}"; do
+        if ! sudo systemctl enable "$svc"; then
+            echo -e "${RED}Couldn’t enable $svc${NC}"
+        fi
+    done
 }
 
 grub() {
-	if [[ -f "$HOME/.local/bin/grub_install" ]]; then
-		sudo chmod +s $HOME/.local/bin/grub_install
-		sudo $HOME/.local/bin/grub_install
-	else 
-		stow sys 
-		if [[ $? -eq 0 ]]; then
-			grub
-		else
-			echo -e "${RED}'sys' folder isn't stow'ed yet${NC}"
-			exit 5
-		fi
-	fi
+    if [[ -f "$HOME/.local/bin/grub_install" ]]; then
+        sudo -H bash "$HOME/.local/bin/grub_install"
+    else
+        echo -e "${RED}'sys' folder isn't stow'ed yet${NC}"
+        exit 5
+    fi
 }
 
+refind() {
+    if [[ -f "$HOME/.local/bin/refind_install" ]]; then
+        sudo -H bash "$HOME/.local/bin/refind_install"
+    else
+        echo -e "${RED}failed to run refind_install${NC}"
+        exit 6
+    fi
+}
 
-#stowupdate
-#pkg
-#grub
+bootloader() {
+    read -ep "$(echo -e "${RED}Which bootloader to install (refind/grub) [refind]: ${NC}")" choice
+    choice=${choice:-refind}
+    case "$choice" in
+        refind) refind ;;
+        grub) grub ;;
+        *) echo -e "${RED}Invalid input${NC}" ;;
+    esac
+}
+
+hyprplugins() {
+    hyprpm update
+    hyprpm add https://github.com/hyprwm/hyprland-plugins
+    hyprpm update
+    hyprpm enable hyprexpo
+    hyprctl reload
+}
+
+# --- Run everything ---
+stowupdate
+pkg
+bootloader
 enable_services
+hyprplugins
 gsettings set org.gnome.desktop.interface gtk-theme "Midnight-Gray"
