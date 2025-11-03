@@ -55,7 +55,7 @@ meson
 midnight-gtk-theme-git
 mpv
 nano
-nemo
+nautilus
 neovim-nightly-bin
 nerd-fonts-noto-sans-mono
 net-tools

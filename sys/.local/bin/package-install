@@ -27,8 +27,10 @@ package_path="/home/kazzu/.local/bin/package_list.txt"
 function helper(){
 	if command -v paru &> /dev/null ; then
 		echo -e "{GREEN}using paru..{NC}"
+		aur_helper=paru
 	elif command -v yay &> /dev/null ; then
 		echo -e "{GREEN}using yay..{NC}"
+		aur_helper=yay
 	else
 		echo -e "{RED} Neither paru nor yay command found exiting..{NC}"
 		exit 1
@@ -61,8 +63,17 @@ mapfile -t packages < "$package_path"
 for item in "${packages[@]}" ; do
 	sudo pacman -S "$item" --noconfirm --needed
 	if [[ $? -ne 0 ]]; then 
-		echo "1" | paru --skipreview -S  $item --noconfirm --needed 
-		#echo "1" | yay  $item --noconfirm --needed 
+		case "$aur_helper" in
+			paru)
+				echo "1" | paru --skipreview -S  $item --noconfirm --needed 
+				;;
+			yay)
+				echo "1" | yay  $item   --noconfirm --needed
+				;;
+			*)
+				echo "${RED}choose either paru or yay${NC}"
+		esac
+
 	fi
 done 
 
@@ -76,8 +87,8 @@ function colloid(){
 	echo -e "{GREEN}Installed colloid{NC}"
 }
 
-wget -qO- https://raw.githubusercontent.com/Rokin05/midnight-kde/master/install.sh | sh
-colloid
+#wget -qO- https://raw.githubusercontent.com/Rokin05/midnight-kde/master/install.sh | sh
+#colloid
 
 #flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 #flatpak install flathub io.github.nuttyartist.notes

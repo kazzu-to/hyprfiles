@@ -94,9 +94,46 @@ hyprplugins() {
 }
 
 # --- Run everything ---
-stowupdate
-pkg
-bootloader
-enable_services
-hyprplugins
-gsettings set org.gnome.desktop.interface gtk-theme "Midnight-Gray"
+running_everything() {
+	echo -e "${GREEN}Choose what to install/enable:"
+	echo -e "1) stow 'sys' folder and update system"
+	echo -e "2) Install all packages"
+	echo -e "3) Enable ly, ufw & bluwtooth"
+	echo -e "4) Install hyprplugins and enable hyprexpo"
+	echo -e "5) Do all above & set gtk theme to Colloid-dark"
+	echo -e "6) Exit${NC}"
+	
+	read -ep "$(echo -e "${GREEN}Select a option from above: ${NC}")" inp
+}
+
+while true; do
+	running_everything
+	case "$inp" in
+		1)
+			stowupdate
+			break ;;
+		2)
+			pkg 
+			break;;
+		3)
+			enable_services 
+			break ;;
+		4)
+			hyprplugins 
+			break ;;
+		5)
+			stowupdate
+			pkg
+			bootloader
+			enable_services
+			hyprplugins
+			gsettings set org.gnome.desktop.interface gtk-theme "Colloid-Dark"
+			break ;;
+		6)
+			echo -e "${RED} Exiting..${NC}"
+			exit 0 ;;
+		*)
+			echo -e "${RED}choose a vaild option${NC}"
+			;;
+	esac
+done
