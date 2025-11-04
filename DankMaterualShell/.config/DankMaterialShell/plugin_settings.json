@@ -1,5 +1,8 @@
 {
   "dankBatteryAlerts": {
     "enabled": true
+  },
+  "dankHooks": {
+    "enabled": true
   }
 }

@@ -13,3 +13,6 @@ hypr/.config/hypr/colors.conf
 kitty/.config/kitty/dank-tabs.conf
 nvim/.config/nvim/nvim-pack-lock.json
 qt-theme/.config/qt6ct/style-colors.conf
+DankMaterualShell/.config/DankMaterialShell/plugins/.repos/
+DankMaterualShell/.config/DankMaterialShell/plugins/dankHooks.meta
+qt-theme/.config/qt5ct/style-colors.conf
