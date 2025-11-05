@@ -20,7 +20,8 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-run(){ "$@" || { echo "$* failed"; exit 1; } }
+user=$(logname)
+user_home=$(eval echo ~$user)
 #-------------------------------------------------------------------------------------------------
 
 refindinstall(){
@@ -49,9 +50,9 @@ refindinstall(){
     if [[ ! -d "$destdir" ]]; then
       mkdir -p "$destdir"
     fi
-    themedir=( "$HOME/hyprfiles/bootloader_themes/$boottheme/"* )
+    themedir=( "$user_home/hyprfiles/bootloader_themes/$boottheme/"* )
     if [[ ${#themedir[@]} -eq 0 ]]; then
-      echo -e "${RED}theme directory not found: $HOME/hyprfiles/bootloader_themes/$boottheme${NC}"
+      echo -e "${RED}theme directory not found: $user_home/hyprfiles/bootloader_themes/$boottheme${NC}"
       return 1
     fi
     cp -r "${themedir[@]}" "$destdir"

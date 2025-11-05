@@ -1,7 +1,7 @@
 
 #!/usr/bin/env bash
 set -euo pipefail
-
+curr_home="$HOME"
 # ensure script runs as root
 if [[ $EUID -ne 0 ]]; then
   exec sudo bash "$0" "$@"
@@ -31,12 +31,15 @@ error() {
   fi
 }
 
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-NC='\033[0m'
+GREEN=$'\033[0;32m'
+RED=$'\033[0;31m'
+NC=$'\033[0m'
+
+user=$(logname)
+user_home=$(eval echo ~$user)
 #-----------------------------------------------------------------------------------------------
 
-sudo pacman -S --needed grub grub-btrfs --noconfirm
+sudo pacman -S --needed grub wget  grub-btrfs --noconfirm
 
 grubinstall() {
   grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --modules="tpm" --disable-shim-lock
@@ -58,11 +61,11 @@ grubinstall() {
   error $? "unable to enable os prober"
 
   
-  defloc="$HOME/hyprfiles"
+  defloc="$user_home/hyprfiles"
   read -ep "${GREEN}Enter location of hyprfiles [default:-${defloc}] : ${NC}" loc
   loc=${loc:-$defloc}
 
-  cd "$loc/bootloader_themes/poly-dark/" || { echo "theme dir not found: $loc";` }
+  cd "$loc/bootloader_themes/poly-dark/" || { echo "theme dir not found: $loc"; }
   bash install.sh
   systemctl enable --now grub-btrfsd
 
@@ -75,21 +78,19 @@ grubinstall() {
 #---------------------------------------------------------------------------------------------
 
 if pacman -Qq refind >/dev/null 2>&1; then
-  read -ep "${RED}Grub seems to be installed. Do you want to remove it? [Y/n] ${NC}" grubinp
+  read -ep "${RED}Refind seems to be installed. Do you want to remove it? [Y/n] ${NC}" grubinp
   grubinp=${grubinp,,}
   grubinp=${grubinp:-y}
   case "$grubinp" in
     y|yes)
-      pacman -Rns --noconfirm grub grub-btrfs
-      rm -rf /boot/grub /boot/EFI/grub /boot/efi/EFI/grub
+      pacman -Rns --noconfirm refind
+      rm -rf /boot/refind /boot/EFI/refind /boot/efi/EFI/refind
       ;;
     n|no)
       echo "Keeping existing GRUB; exiting."
-      return 0
       ;;
     *)
       echo -e "${RED}enter valid option..exiting${NC}"
-      return 1
       ;;
   esac
 fi

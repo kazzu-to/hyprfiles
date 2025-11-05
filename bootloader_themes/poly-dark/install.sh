@@ -31,6 +31,7 @@ cd $(mktemp -d)
 # Pre-authorise sudo
 sudo echo
 
+: << language
 # Select language, optional
 declare -A INSTALLER_LANGS=(
     [Chinese_simplified]=zh_CN
@@ -67,6 +68,7 @@ else
         fi
     done < /dev/tty
 fi
+language
 
 echo 'Fetching and unpacking theme'
 wget -O - https://github.com/shvchk/${GRUB_THEME}/archive/master.tar.gz | tar -xzf - --strip-components=1
