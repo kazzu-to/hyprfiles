@@ -1,43 +1,97 @@
-#!/usr/bin/env bash
 
-function error {
-	if [[ $? -ne 0 ]]; then
-		echo $2
-		exit $1
-	fi
+#!/usr/bin/env bash
+set -euo pipefail
+
+# ensure script runs as root
+if [[ $EUID -ne 0 ]]; then
+  exec sudo bash "$0" "$@"
+fi
+
+echo "Running as root."
+
+# refresh sudo timestamp (not needed if re-exec'd as root, but safe)
+{
+  while true; do
+    sleep 60
+    sudo -v || true
+  done
+} &
+SUDO_REFRESH_PID=$!
+cleanup() {
+  [[ -n "$SUDO_REFRESH_PID" ]] && kill "$SUDO_REFRESH_PID" 2>/dev/null || true
+}
+trap cleanup EXIT
+#---------------------------------------------------------------------------------------------
+
+error() {
+  local rc=$1; shift
+  if [[ $rc -ne 0 ]]; then
+    echo "$*"
+    exit $rc
+  fi
 }
 
-if ! [[ -s "/usr/bin/grub-install" ]]; then
-	echo "grub not installed"
-	exit 1 
-fi 
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
+#-----------------------------------------------------------------------------------------------
 
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --modules="tpm" --disable-shim-lock
-error 2 "grub-install not successfull"
+sudo pacman -S --needed grub grub-btrfs --noconfirm
 
-grub-mkconfig -o /boot/grub/grub.cfg
-sbctl create-keys
-sbctl enroll-keys -m
-sbctl sign -s /boot/vmlinuz-linux
-sbctl sign -s /boot/EFI/BOOT/BOOTX64.EFI 
-sbctl sign -s /boot/EFI/arch/grubx64.efi
-sbctl sign -s /boot/EFI/GRUB/grubx64.efi 
-error 3 "grub-mkconfig not successfull"
+grubinstall() {
+  grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --modules="tpm" --disable-shim-lock
+  error $? "grub-install not successful"
 
-sed -i '/^GRUB_TIMEOUT=/c\GRUB_TIMEOUT=10' "/etc/default/grub" 2>/dev/null
-error 4 "unable to set grub timeout"
-sed -i '/^GRUB_DEFAULT=/c\GRUB_DEFAULT="saved"' "/etc/default/grub" 2>/dev/null
-error 5 "unable to set grub default as saved"
-sed -i '/^#GRUB_SAVEDEFAULT=/c\GRUB_SAVEDEFAULT=true' "/etc/default/grub" 2>/dev/null
-error 6 "unable to set grub savedefault=true"
-sed -i '/^#GRUB_DISABLE_OS_PROBER=/c\GRUB_DISABLE_OS_PROBER=false' "/etc/default/grub" 2>/dev/null
-error 7 "unable to enable os prober"
-sed -i '/^#GRUB_THEME/c\GRUB_THEME="/boot/grub/themes/poly-dark/theme.txt"' "/etc/default/grub" 2>/dev/null
-error 8 "unable to set grub theme"
-sed -i '/^#GRUB_BACKGROUND/c\GRUB_BACKGROUND="/boot/grub/themes/poly-dark/grub.png"' "/etc/default/grub" 2>/dev/null
-error 9 "unable to set grub background"
+  grub-mkconfig -o /boot/grub/grub.cfg
+  error $? "grub-mkconfig failed"
 
-grub-mkconfig -o /boot/grub/grub.cfg
-mkinitcpio -P
-error 10 "Unable to update grub"
+  sed -i '/^GRUB_TIMEOUT=/c\GRUB_TIMEOUT=10' "/etc/default/grub" 2>/dev/null
+  error $? "unable to set grub timeout"
 
+  sed -i '/^GRUB_DEFAULT=/c\GRUB_DEFAULT="saved"' "/etc/default/grub" 2>/dev/null
+  error $? "unable to set grub default as saved"
+
+  sed -i '/^#GRUB_SAVEDEFAULT=/c\GRUB_SAVEDEFAULT=true' "/etc/default/grub" 2>/dev/null
+  error $? "unable to set grub savedefault=true"
+
+  sed -i '/^#GRUB_DISABLE_OS_PROBER=/c\GRUB_DISABLE_OS_PROBER=false' "/etc/default/grub" 2>/dev/null
+  error $? "unable to enable os prober"
+
+  
+  defloc="$HOME/hyprfiles"
+  read -ep "${GREEN}Enter location of hyprfiles [default:-${defloc}] : ${NC}" loc
+  loc=${loc:-$defloc}
+
+  cd "$loc/bootloader_themes/poly-dark/" || { echo "theme dir not found: $loc";` }
+  bash install.sh
+  systemctl enable --now grub-btrfsd
+
+  grub-mkconfig -o /boot/grub/grub.cfg
+  error $? "grub-mkconfig failed (second run)"
+
+  mkinitcpio -P
+  error $? "mkinitcpio failed"
+}
+#---------------------------------------------------------------------------------------------
+
+if pacman -Qq refind >/dev/null 2>&1; then
+  read -ep "${RED}Grub seems to be installed. Do you want to remove it? [Y/n] ${NC}" grubinp
+  grubinp=${grubinp,,}
+  grubinp=${grubinp:-y}
+  case "$grubinp" in
+    y|yes)
+      pacman -Rns --noconfirm grub grub-btrfs
+      rm -rf /boot/grub /boot/EFI/grub /boot/efi/EFI/grub
+      ;;
+    n|no)
+      echo "Keeping existing GRUB; exiting."
+      return 0
+      ;;
+    *)
+      echo -e "${RED}enter valid option..exiting${NC}"
+      return 1
+      ;;
+  esac
+fi
+
+grubinstall

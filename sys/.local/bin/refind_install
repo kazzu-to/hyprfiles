@@ -1,67 +1,91 @@
-#! /usr/bin/env bash
 
-echo "This script needs sudo privs. Please enter your password."
-sudo -k
-sudo -v
-# Background job: refresh sudo timestamp every minute
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ $EUID -ne 0 ]]; then
+  exec sudo bash "$0" "$@"
+fi
+
 {
   while true; do
     sleep 60
-    sudo -v
+    sudo -v || true
   done
 } &
 SUDO_REFRESH_PID=$!
-# Optionally trap EXIT to kill the background refresher
-cleanup() {
-  kill $SUDO_REFRESH_PID
-}
+cleanup(){ [[ -n "${SUDO_REFRESH_PID:-}" ]] && kill "$SUDO_REFRESH_PID" 2>/dev/null || true; }
 trap cleanup EXIT
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-function error {
-	if [[ $? -ne 0 ]]; then
-		echo $2
-		exit $1
-	fi
+run(){ "$@" || { echo "$* failed"; exit 1; } }
+#-------------------------------------------------------------------------------------------------
+
+refindinstall(){
+  echo -e "${GREEN}which theme to install for refind"
+  echo -e "1) rEFInd-RetroGame"
+  echo -e "2) rEFInd-nils"
+  echo -e "3) dont want theme / hyprfiles not installed"
+  read -ep "${GREEN}Enter your choice [default:2] ${NC}" themechoice
+  themechoice=${themechoice:-2}
+  case "$themechoice" in
+    1) boottheme="rEFInd-RetroGame" ;;
+    2) boottheme="rEFInd-nils" ;;
+    3) boottheme="" ;;
+    *) boottheme="rEFInd-nils" ;;
+  esac
+  
+
+  if command -v refind-install >/dev/null 2>&1; then
+    refind-install || true
+    echo -e "${GREEN}refind installed${NC}"
+    if [[ -z "$boottheme" ]]; then
+      echo -e "${GREEN}No theme selected; finished${NC}"
+      return 0
+    fi
+    destdir="/boot/EFI/refind/themes/${boottheme}/"
+    if [[ ! -d "$destdir" ]]; then
+      mkdir -p "$destdir"
+    fi
+    themedir=( "$HOME/hyprfiles/bootloader_themes/$boottheme/"* )
+    if [[ ${#themedir[@]} -eq 0 ]]; then
+      echo -e "${RED}theme directory not found: $HOME/hyprfiles/bootloader_themes/$boottheme${NC}"
+      return 1
+    fi
+    cp -r "${themedir[@]}" "$destdir"
+    refdir="/boot/EFI/refind"
+    read -ep "${GREEN}Enter refind installed dir [default:-$refdir] : ${NC}" inpdir
+    inpdir=${inpdir:-$refdir}
+    echo "include themes/$boottheme/theme.conf" | tee -a "$inpdir/refind.conf" >/dev/null
+    echo -e "${GREEN}Finished${NC}"
+  else
+    echo -e "${RED}refind-install command not found. refind may not be installed${NC}"
+    return 1
+  fi
 }
 
-bootmgr=$(pacman -Qq | grep refind)
+#--------------------------------------------------------------------------------------------
+pacman -Syyu --noconfirm --needed refind
 
-if [ "$bootmgr" != "refind" ]; then
-	echo -e "{RED}refind not found{NC}"
-	read -p "Do you want to install refind [Y/n]" inp
-	echo  		#new line
-	inp=${inp:-Y}  #set default input
-	case "$inp" in
-		[Yn] )
-			sudo pacman -S refind --noconfirm
-			break
-			;;
-		[Nn] )
-			echo -e "{RED}exiting..{NC}"
-			break
-			;;
-		* )
-			echo -e "{RED}not valid option exiting..{NC}"
-			;;
-	esac
-
-	
-fi
-
-themedir="$HOME/hyprfiles/rEFInd-RetroGame/*"
-destdir="/boot/EFI/refind/themes/rEFInd-RetroGame/"
-
-if command -v refind-install &> /dev/null ; then
-	sudo refind-install
-	echo -e "{GREEN}refiend installed{NC}"
-	if [ ! -f "$destdir"]; then
-		sudo mkdir -p "$destdir"
-	fi
-	sudo cp -r "$themedir" "$destdir"
-	sudo echo "'include themes/rEFInd-RetroGame/theme.conf'" >> /boot/EFI/refind/refind.conf 
-	echo -e "{GREEN}Finished{NC}"
+if pacman -Qq grub >/dev/null 2>&1; then
+  read -ep "${RED}Grub seems to be installed do you want to remove it? [Y/n] ${NC}" grubinp
+  grubinp=${grubinp,,}
+  grubinp=${grubinp:-y}
+  case "$grubinp" in
+    y|yes)
+      pacman -Rns --noconfirm grub grub-btrfs
+      rm -rf /boot/grub /boot/EFI/grub /boot/efi/EFI/grub
+      refindinstall
+      ;;
+    n|no)
+      echo "Keeping existing GRUB. Skipping refind install."
+      ;;
+    *)
+      echo -e "${RED}enter valid option..exiting${NC}"
+      ;;
+  esac
+else
+  refindinstall
 fi
