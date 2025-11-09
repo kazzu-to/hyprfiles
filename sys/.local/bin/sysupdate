@@ -44,13 +44,14 @@ helper() {
 			git clone https://aur.archlinux.org/paru.git
 			cd paru
 			makepkg -si --noconfirm
-			rm -rf paru
+			rm -rf ../paru
 		else 
 			sudo pacman -S --needed base-devel git
 			git clone https://aur.archlinux.org/yay.git
 			cd yay
 			makepkg -si --noconfirm
-			rm -rf yay 
+			rm -rf ../yay
+			
 		fi
 		helper
 

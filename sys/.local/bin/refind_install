@@ -70,14 +70,14 @@ refindinstall(){
 #--------------------------------------------------------------------------------------------
 pacman -Syyu --noconfirm --needed refind
 
-if command grub ; then
+if pacman -Qq grub ; then
   read -ep "${RED}Grub seems to be installed do you want to remove it? [Y/n] ${NC}" grubinp
   grubinp=${grubinp,,}
   grubinp=${grubinp:-y}
   case "$grubinp" in
     y|yes)
       pacman -Rns --noconfirm grub grub-btrfs
-      rm -rf /boot/grub /boot/EFI/grub /boot/efi/EFI/grub
+      rm -rf /boot/grub /boot/EFI/grub /boot/efi/EFI/grub /boot/EFI/BOOT
       refindinstall
       ;;
     n|no)

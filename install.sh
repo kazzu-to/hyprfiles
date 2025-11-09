@@ -27,7 +27,7 @@ stowupdate() {
     read -ep "$(echo -e "${GREEN}Enter path of cloned hyprfiles repo [${default_path}]: ${NC}")" loc
     loc=${loc:-$default_path}
     cd $loc
-    stow sys 
+    stow sys hypr fastfetch swappy fish kitty matugen DankMaterualShell nvim
 
     cd "$loc" || { echo -e "${RED}Path not found: $loc${NC}"; exit 1; }
 
@@ -131,7 +131,7 @@ running_everything() {
 	echo -e "4) Install hyprplugins and enable hyprexpo"
 	echo -e "5) Install Anya-cursor theme"
 	echo -e "6) Install collection anime cursors form ctrlcat0x system-wide"
-	echo -e "7) Do all above & set gtk theme to Colloid-dark"
+	echo -e "7) Do all above & set gtk theme to tokyonight-dark"
 	echo -e "8) Exit${NC}"
 	
 	read -ep "$(echo -e "${GREEN}Select a option from above: ${NC}")" inp
@@ -163,9 +163,8 @@ while true; do
 			pkg
 			bootloader
 			enable_services
-			sudo -u "$user" bash -c "$(declare -f hyprplugins); hyprplugins"
 			cursor
-			gsettings set org.gnome.desktop.interface gtk-theme "Colloid-Dark"
+			gsettings set org.gnome.desktop.interface gtk-theme "Tokyonight-Dark"
 			break ;;
 		8)
 			echo -e "${RED} Exiting..${NC}"
