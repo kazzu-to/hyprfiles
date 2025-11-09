@@ -24,6 +24,8 @@ stowupdate() {
     default_path="$HOME/hyprfiles"
     read -ep "$(echo -e "${GREEN}Enter path of cloned hyprfiles repo [${default_path}]: ${NC}")" loc
     loc=${loc:-$default_path}
+    cd loc
+    stow sys DankMaterualShell fastfetch fish bash gtk-theme kitty nvim qt-theme 
 
     cd "$loc" || { echo -e "${RED}Path not found: $loc${NC}"; exit 1; }
 
