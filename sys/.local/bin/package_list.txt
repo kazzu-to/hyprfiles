@@ -13,11 +13,9 @@ brightnessctl
 btop
 btrfs-progs
 cliphist
-cmake
 cpio
 cronie
 dms-shell-git
-eclipse-java-bin
 efibootmgr
 egl-wayland
 fastfetch
@@ -39,19 +37,14 @@ hypridle
 hyprland
 hyprpolkitagent
 iwd
-jdk-openjdk
 kdeconnect
 kooha
 kitty
 libpulse
 librewolf-bin
-libva-intel-driver
-linux
-linux-firmware
 ly
 man-db
 matugen-bin
-meson
 midnight-gtk-theme-git
 mpv
 nano
@@ -83,7 +76,6 @@ otf-hermit-nerd
 otf-monaspace-nerd
 otf-opendyslexic-nerd
 otf-overpass-nerd
-paru
 pavucontrol
 pipewire
 pipewire-alsa
@@ -103,7 +95,6 @@ sassc
 sbctl
 scdoc
 slurp
-smartmontools
 sof-firmware
 spotify-launcher
 stow
@@ -174,9 +165,7 @@ usbutils
 vesktop-bin
 vlc
 vscodium-bin
-vulkan-intel
 vulkan-radeon
-waybar
 wget
 wireguard-tools
 wireless_tools
@@ -188,4 +177,8 @@ xdg-user-dirs-gtk
 xf86-video-amdgpu
 yazi
 zram-generator
-gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav
+gst-plugins-base 
+gst-plugins-good 
+gst-plugins-bad 
+gst-plugins-ugly 
+gst-libav

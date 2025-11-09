@@ -17,12 +17,16 @@ cleanup() {
   kill $SUDO_REFRESH_PID
 }
 trap cleanup EXIT
+#-----------------------------------------------------
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+NC=$'\033[0m' # No Color
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-NC='\033[0m' # No Color
+user=$(logname)
+user_home=$(eval echo ~$user)
+#------------------------------------------------------------
 
-package_path="/home/kazzu/.local/bin/package_list.txt"
+package_path="$user_home/.local/bin/package_list.txt"
 
 function helper(){
 	if command -v paru &> /dev/null ; then
@@ -43,6 +47,7 @@ if [[ ! -f "$package_path" ]]; then
     exit 1   # Exit script if file is missing
 fi
 
+: << 'comment'
 if command -v sysupdate &> /dev/null ; then
 	sysupdate 
 else 
@@ -57,6 +62,7 @@ else
 	echo -e "{RED}sysupdate not found at ~/.local/bin or shell PATH not configured"
 	
 fi
+comment
 
 mapfile -t packages < "$package_path"
  

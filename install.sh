@@ -12,28 +12,28 @@ KEEPALIVE_PID=$!
 trap 'kill $KEEPALIVE_PID' EXIT
 
 # --- Colors ---
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-NC='\033[0m' # No Color
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+NC=$'\033[0m' # No Color
 
+user=$(logname)
+user_home=$(eval echo ~$user)
 # --- Install stow ---
 sudo pacman -S stow --noconfirm --needed
 
 # --- Functions ---
 stowupdate() {
-    default_path="$HOME/hyprfiles"
+    default_path="$user_home/hyprfiles/"
     read -ep "$(echo -e "${GREEN}Enter path of cloned hyprfiles repo [${default_path}]: ${NC}")" loc
     loc=${loc:-$default_path}
-    cd loc
-    stow sys DankMaterualShell fastfetch fish bash gtk-theme kitty nvim qt-theme 
+    cd $loc
+    command stow sys DankMaterualShell hypr bash fastfetch fish  gtk-theme kitty nvim qt-theme 
 
     cd "$loc" || { echo -e "${RED}Path not found: $loc${NC}"; exit 1; }
 
-    command stow sys
-
-    if [[ -f "$HOME/.local/bin/sysupdate" ]]; then
+    if [[ -f "$user_home/.local/bin/sysupdate" ]]; then
         echo -e "${GREEN}Running sysupdate${NC}"
-        bash "$HOME/.local/bin/sysupdate"
+        bash "$user_home/.local/bin/sysupdate"
     else
         echo -e "${RED}sysupdate script not found${NC}"
         exit 2
@@ -41,9 +41,9 @@ stowupdate() {
 }
 
 pkg() {
-    if [[ -f "$HOME/.local/bin/package-install" ]]; then
+    if [[ -f "$user_home/.local/bin/package-install" ]]; then
         echo -e "${GREEN}Installing packages${NC}"
-        sudo -H bash "$HOME/.local/bin/package-install"
+        sudo -u $user bash "$user_home/.local/bin/package-install"
     else
         echo -e "${RED}package-install not found at ~/.local/bin/${NC}"
         exit 4
@@ -60,8 +60,8 @@ enable_services() {
 }
 
 grub() {
-    if [[ -f "$HOME/.local/bin/grub_install" ]]; then
-        sudo -H bash "$HOME/.local/bin/grub_install"
+    if [[ -f "$user_home/.local/bin/grub_install" ]]; then
+        sudo -H bash "$user_home/.local/bin/grub_install"
     else
         echo -e "${RED}'sys' folder isn't stow'ed yet${NC}"
         exit 5
@@ -69,8 +69,8 @@ grub() {
 }
 
 refind() {
-    if [[ -f "$HOME/.local/bin/refind_install" ]]; then
-        sudo -H bash "$HOME/.local/bin/refind_install"
+    if [[ -f "$user_home/.local/bin/refind_install" ]]; then
+        sudo -H bash "$user_home/.local/bin/refind_install"
     else
         echo -e "${RED}failed to run refind_install${NC}"
         exit 6
@@ -88,6 +88,7 @@ bootloader() {
 }
 
 hyprplugins() {
+    
     hyprpm update
     hyprpm add https://github.com/hyprwm/hyprland-plugins
     hyprpm update
@@ -121,14 +122,14 @@ while true; do
 			enable_services 
 			break ;;
 		4)
-			hyprplugins 
+			sudo -u "$user" bash -c "$(declare -f hyprplugins); hyprplugins"
 			break ;;
 		5)
 			stowupdate
 			pkg
 			bootloader
 			enable_services
-			hyprplugins
+			sudo -u "$user" bash -c "$(declare -f hyprplugins); hyprplugins"
 			gsettings set org.gnome.desktop.interface gtk-theme "Colloid-Dark"
 			break ;;
 		6)

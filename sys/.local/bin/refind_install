@@ -16,9 +16,9 @@ SUDO_REFRESH_PID=$!
 cleanup(){ [[ -n "${SUDO_REFRESH_PID:-}" ]] && kill "$SUDO_REFRESH_PID" 2>/dev/null || true; }
 trap cleanup EXIT
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-NC='\033[0m'
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+NC=$'\033[0m'
 
 user=$(logname)
 user_home=$(eval echo ~$user)
