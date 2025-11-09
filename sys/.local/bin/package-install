@@ -71,10 +71,12 @@ for item in "${packages[@]}" ; do
 	if [[ $? -ne 0 ]]; then 
 		case "$aur_helper" in
 			paru)
-				echo "1" | paru --skipreview -S  $item --noconfirm --needed 
+				paru -S --noconfirm --needed
+				#echo "1" | paru --skipreview -S  $item --noconfirm --needed 
 				;;
 			yay)
-				echo "1" | yay  $item   --noconfirm --needed
+				yay -S $item --noconfirm --needed 
+				#echo "1" | yay  $item   --noconfirm --needed
 				;;
 			*)
 				echo "${RED}choose either paru or yay${NC}"

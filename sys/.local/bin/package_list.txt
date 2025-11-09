@@ -13,9 +13,10 @@ brightnessctl
 btop
 btrfs-progs
 cliphist
+cmake
 cpio
 cronie
-dms-shell-git
+dms-shell-bin
 efibootmgr
 egl-wayland
 fastfetch
@@ -33,8 +34,9 @@ gst-plugin-pipewire
 gtkmm3
 gvfs-mtp
 gvfs-smb
+hyprlock
 hypridle
-hyprland
+hyprland-git
 hyprpolkitagent
 iwd
 kdeconnect
@@ -44,6 +46,7 @@ libpulse
 librewolf-bin
 ly
 man-db
+meson
 matugen-bin
 midnight-gtk-theme-git
 mpv
