@@ -36,7 +36,7 @@ gvfs-mtp
 gvfs-smb
 hyprlock
 hypridle
-hyprland-git
+hyprland
 hyprpolkitagent
 iwd
 kdeconnect
@@ -80,11 +80,13 @@ otf-monaspace-nerd
 otf-opendyslexic-nerd
 otf-overpass-nerd
 pavucontrol
+playerctl
 pipewire
 pipewire-alsa
 pipewire-jack
 pipewire-pulse
 pkg-config
+power-profiles-daemon
 pyright
 python-pywal16
 python-requests
