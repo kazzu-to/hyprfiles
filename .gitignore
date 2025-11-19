@@ -16,3 +16,4 @@ qt-theme/.config/qt6ct/style-colors.conf
 DankMaterualShell/.config/DankMaterialShell/plugins/.repos/
 DankMaterualShell/.config/DankMaterialShell/plugins/dankHooks.meta
 qt-theme/.config/qt5ct/style-colors.conf
+rofi/.config/rofi/colors.rasi

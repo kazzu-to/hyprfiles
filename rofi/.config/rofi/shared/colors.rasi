@@ -1,0 +1,15 @@
+/* Copyright (C) 2020-2023 Aditya Shakya <adi1090x@gmail.com> */
+
+/* Colors */
+@import "../colors.rasi"
+
+* {
+  background:    @secondary-container;
+  background-alt: @primary-container;
+  //border:        @shadow;
+  border:        @outline;
+  foreground:    @on-secondary-container;
+  selected:      @tertiary;
+  active:        @inverse-surface;
+  urgent:        @error;
+}
