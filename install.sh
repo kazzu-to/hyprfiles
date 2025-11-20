@@ -19,7 +19,7 @@ NC=$'\033[0m' # No Color
 user=$(logname)
 user_home=$(eval echo ~$user)
 # --- Install stow ---
-sudo pacman -S stow --noconfirm --needed
+sudo pacman -Syyu stow --noconfirm --needed
 
 # --- Functions ---
 stowupdate() {
@@ -27,7 +27,7 @@ stowupdate() {
     read -ep "$(echo -e "${GREEN}Enter path of cloned hyprfiles repo [${default_path}]: ${NC}")" loc
     loc=${loc:-$default_path}
     cd $loc
-    stow sys hypr fastfetch swappy fish kitty matugen DankMaterualShell nvim
+    stow sys hypr fastfetch swappy fish kitty matugen DankMaterualShell nvim rofi
 
     cd "$loc" || { echo -e "${RED}Path not found: $loc${NC}"; exit 1; }
 
@@ -87,16 +87,6 @@ bootloader() {
     esac
 }
 
-hyprplugins() {
-    
-    hyprpm purge-cache
-    hyprpm update
-    hyprpm add https://github.com/hyprwm/hyprland-plugins
-    hyprpm update
-    hyprpm enable hyprexpo
-    hyprctl reload
-}
-
 cursor() {
 	destdir="$user_home/.local/share/icons"
 	if [ -d "$destdir/Anya-cursors" ]; then
@@ -128,11 +118,10 @@ running_everything() {
 	echo -e "1) stow 'sys' folder and update system"
 	echo -e "2) Install all packages"
 	echo -e "3) Enable ly, ufw & bluwtooth"
-	echo -e "4) Install hyprplugins and enable hyprexpo"
-	echo -e "5) Install Anya-cursor theme"
-	echo -e "6) Install collection anime cursors form ctrlcat0x system-wide"
-	echo -e "7) Do all above & set gtk theme to tokyonight-dark"
-	echo -e "8) Exit${NC}"
+	echo -e "4) Install Anya-cursor theme"
+	echo -e "5) Install collection anime cursors form ctrlcat0x system-wide"
+	echo -e "6) Do all above & set gtk theme to tokyonight-dark"
+	echo -e "7) Exit${NC}"
 	
 	read -ep "$(echo -e "${GREEN}Select a option from above: ${NC}")" inp
 }
@@ -149,16 +138,14 @@ while true; do
 		3)
 			enable_services 
 			break ;;
+			#sudo -u "$user" bash -c "$(declare -f hyprplugins); hyprplugins"
 		4)
-			sudo -u "$user" bash -c "$(declare -f hyprplugins); hyprplugins"
-			break ;;
-		5)
 			cursor 
 			break ;;
-		6)
+		5)
 			ctrlcat0x
 			break ;;
-		7)
+		6)
 			stowupdate
 			pkg
 			bootloader
@@ -166,7 +153,7 @@ while true; do
 			cursor
 			gsettings set org.gnome.desktop.interface gtk-theme "Tokyonight-Dark"
 			break ;;
-		8)
+		7)
 			echo -e "${RED} Exiting..${NC}"
 			exit 0 ;;
 		*)

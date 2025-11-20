@@ -74,6 +74,7 @@ alias snano='sedit'
 alias vim='nvim'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
+alias grep='rg'
 alias bashrc='nvim ~/.bashrc'
 
 
@@ -660,4 +661,6 @@ PS1="\[\e[31m\][\[\e[m\]\[\e[38;5;172m\]\u\[\e[m\]@\[\e[38;5;153m\]\h\[\e[m\] \[
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
-export PATH="$PATH:/home/kazz/platform-tools"
+export PATH="$PATH:$HOME/platform-tools"
+
+export PATH=$PATH:"$HOME/.spicetify"

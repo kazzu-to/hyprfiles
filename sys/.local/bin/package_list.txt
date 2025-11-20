@@ -96,6 +96,7 @@ quickshell-git
 refind
 reflector
 ripgrep
+rofi-wayland
 sassc
 sbctl
 scdoc
