@@ -237,9 +237,7 @@
   "launchPrefix": "",
   "brightnessDevicePins": {},
   "wifiNetworkPins": {},
-  "bluetoothDevicePins": {
-    "preferredDevice": "CF:20:23:00:03:13"
-  },
+  "bluetoothDevicePins": {},
   "audioInputDevicePins": {},
   "audioOutputDevicePins": {},
   "gtkThemingEnabled": false,
@@ -286,6 +284,13 @@
   "notificationTimeoutCritical": 0,
   "notificationPopupPosition": 0,
   "osdAlwaysShowValue": false,
+  "osdPosition": 5,
+  "osdVolumeEnabled": true,
+  "osdBrightnessEnabled": true,
+  "osdIdleInhibitorEnabled": true,
+  "osdMicMuteEnabled": true,
+  "osdCapsLockEnabled": true,
+  "osdPowerProfileEnabled": true,
   "powerActionConfirm": true,
   "powerMenuActions": [
     "reboot",
@@ -306,6 +311,7 @@
   "updaterUseCustomCommand": true,
   "updaterCustomCommand": "yay -Syyu",
   "updaterTerminalAdditionalParams": "",
+  "displayNameMode": "system",
   "screenPreferences": {},
   "showOnLastDisplay": {},
   "configVersion": 1
