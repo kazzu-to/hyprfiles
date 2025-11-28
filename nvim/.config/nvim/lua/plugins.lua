@@ -4,7 +4,8 @@ vim.pack.add({
   { src = 'https://github.com/nvim-lua/plenary.nvim'}, -- dependency for telescope 
   { src = 'https://github.com/nvim-telescope/telescope.nvim'}, 
   { src = 'https://github.com/AlphaTechnolog/pywal.nvim'},
-  { src = 'https://github.com/nvim-lualine/lualine.nvim'}
+  { src = 'https://github.com/nvim-lualine/lualine.nvim'} ,
+  { src = 'https://github.com/brianhuster/live-preview.nvim.git' }
 })
 
 
@@ -50,4 +51,12 @@ require('nvim-treesitter.configs').setup {
 require('nvim-tree').setup {}
 vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>')
 
+require('livepreview.config').set({
+	port = 9500,
+	browser = 'default',
+	dynamic_root = false,
+	sync_scroll = true,
+	picker = "",
+	address = '127.0.0.1',
+})
 

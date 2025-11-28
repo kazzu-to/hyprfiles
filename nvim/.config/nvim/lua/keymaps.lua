@@ -42,7 +42,7 @@ map('n', '<C-l>', '<C-w>l', 'Window right')
 
 -- 14: Window resizing
 map('n', '<C-Up>',    '<cmd>resize -2<CR>', 'Shrink height')
-map('n', '<C-Down>',  '<amt>resize +2<CR>', 'Grow height')
+map('n', '<C-Down>',  '<cmd>resize +2<CR>', 'Grow height')
 map('n', '<C-Left>',  '<cmd>vertical resize -2<CR>', 'Shrink width')
 map('n', '<C-Right>', '<cmd>vertical resize +2<CR>', 'Grow width')
 
@@ -86,3 +86,7 @@ if ok then
 	vim.keymap.set('n', '<leader>gb', builtin.git_branches,  {desc = 'Lists all branches with log preview, checkout action <cr>, track action <C-t>, rebase action<C-r>, create action <C-a>, switch action <C-s>, delete action <C-d> and merge action <C-y>'})
 	vim.keymap.set('n', '<leader>gs', builtin.git_status,  {desc = 'Lists current changes per file with diff preview and add action. (Multi-selection still WIP)'})
 end
+
+
+--live-preview
+map('n', '<leader>,', '<cmd>LivePreview start<CR>', 'start live preview')

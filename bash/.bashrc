@@ -1,10 +1,20 @@
 ####################
 #credits to chris titus for functions of this scripts 
 ####################
+get_color() { tput setaf "$1"; }
+
+# Can be changed to whatever color number you want (0-15)
+COL_USER="${color4:-$(get_color 12)}"     # Yellow-ish
+COL_HOST="${color6:-$(get_color 5)}"      # Blue-ish
+COL_PATH="${color2:-$(get_color 11)}"     # Cyan/Green-ish
+COL_ROOT="${color1:-$(get_color 1)}"      # Red
+COL_RESET="$(tput sgr0)"
 
 #!/usr/bin/env bash
 iatest=$(expr index "$-" i)
+# bashrc
 
+[[ $- == *i* ]] && source /usr/share/blesh/ble.sh --noattach
 #######################################################
 # SOURCED ALIAS'S AND SCRIPTS BY zachbrowne.me
 #######################################################
@@ -32,8 +42,6 @@ fi
 if [[ $iatest -gt 0 ]]; then bind "set bell-style visible"; fi
 
 # Expand the history size
-export HISTFILESIZE=1000
-export HISTSIZE=500
 export HISTTIMEFORMAT="%F %T" # add timestamp to history
 
 # Don't put duplicate lines in the history and do not add lines that start with a space
@@ -80,18 +88,7 @@ alias bashrc='nvim ~/.bashrc'
 
 # To have colors for ls and all grep commands such as grep, egrep and zgrep
 export CLICOLOR=1
-export LS_COLORS='no=00:fi=00:di=00;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:*.xml=00;31:'
-#export GREP_OPTIONS='--color=auto' #deprecated
 
-# Check if ripgrep is installed
-if command -v rg &> /dev/null; then
-    # Alias grep to rg if ripgrep is installed
-    alias grep='rg'
-else
-    # Alias grep to /usr/bin/grep with GREP_OPTIONS if ripgrep is not installed
-    alias grep="/usr/bin/grep $GREP_OPTIONS"
-fi
-unset GREP_OPTIONS
 
 # Color for manpages in less makes manpages a little easier to read
 export LESS_TERMCAP_mb=$'\E[01;31m'
@@ -127,25 +124,15 @@ alias web='cd /var/www/html'
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-# Edit this .bashrc file
-alias ebrc='edit ~/.bashrc'
 
 #Edit hyprland config
 alias hyprconf='nvim ~/.config/hypr/hyprland.conf'
 alias hypr='nvim ~/.config/hypr/'
 
 #pacman & paru alias
-alias supdate='sudo pacman -Syu'
-alias pupdate='yay -Syu'
+alias sp='sudo pacman -Ss'
 alias rns='sudo pacman -Rns'
 alias pac='sudo pacman -S'
-
-
-# Show help for this .bashrc file
-alias hlp='less ~/.bashrc_help'
-
-# alias to show the date
-alias da='date "+%Y-%m-%d %A %T %Z"'
 
 # Alias's to modified commands
 alias cp='cp -vi'
@@ -156,24 +143,25 @@ alias mkdir='mkdir -p'
 alias ps='ps auxf'
 alias ping='ping -c 10'
 alias less='less -R'
-alias cls='clear'
-alias apt-get='sudo apt-get'
 alias multitail='multitail --no-repeat -c'
 alias freshclam='sudo freshclam'
 alias vi='nvim'
 alias svi='sudo vi'
 alias vis='nvim "+set si"'
 
+#git alias
+alias gst='git status'
+alias gdf='git diff'
+alias gmt='git commit -m'
 
-# Change directory aliases
-alias home='cd ~'
+#Change directory aliases
 alias cd..='cd ..'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 
-# cd into the old directory
+#cd into the old directory
 alias bd='cd "$OLDPWD"'
 
 # Remove a directory and all files
@@ -206,15 +194,10 @@ alias 666='chmod -R 666'
 alias 755='chmod -R 755'
 alias 777='chmod -R 777'
 
-# Search command line history
-alias h="history | grep "
 
 # Search running processes
-alias p="ps aux | grep "
 alias topcpu="/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
 
-# Search files in the current folder
-alias f="find . | grep "
 
 # Count all files (recursively) in the current folder
 alias countfiles="for t in files links directories; do echo \`find . -type \${t:0:1} | wc -l\` \$t; done 2> /dev/null"
@@ -237,13 +220,6 @@ alias tree='tree -CAhF --dirsfirst'
 alias treed='tree -CAFd'
 alias mountedinfo='df -hT'
 
-# Alias's for archives
-alias mktar='tar -cvf'
-alias mkbz2='tar -cvjf'
-alias mkgz='tar -cvzf'
-alias untar='tar -xvf'
-alias unbz2='tar -xvjf'
-alias ungz='tar -xvzf'
 
 # Show all logs in /var/log
 alias logs="sudo find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
@@ -342,33 +318,13 @@ mvg() {
 	fi
 }
 
-# Create and go to the directory
-mkdirg() {
-	mkdir -p "$1"
-	cd "$1"
-}
-
-# Goes up a specified number of directories  (i.e. up 4)
-up() {
-	local d=""
-	limit=$1
-	for ((i = 1; i <= limit; i++)); do
-		d=$d/..
-	done
-	d=$(echo $d | sed 's/^\///')
-	if [ -z "$d" ]; then
-		d=..
-	fi
-	cd $d
-}
-
 # Automatically do an ls after each cd, z, or zoxide
 cd ()
 {
 	if [ -n "$1" ]; then
-		builtin cd "$@" && ls
+		builtin cd "$@" && ls -l
 	else
-		builtin cd ~ && ls
+		builtin cd ~ && ls -l
 	fi
 }
 
@@ -437,13 +393,6 @@ distribution () {
 }
 
 
-DISTRIBUTION=$(distribution)
-if [ "$DISTRIBUTION" = "redhat" ] || [ "$DISTRIBUTION" = "arch" ]; then
-      alias cat='cat'
-else
-      alias cat='batcat'
-fi 
-
 # Show the current version of the operating system
 ver() {
     local dtype
@@ -508,7 +457,7 @@ install_bashrc_support() {
 			sudo apt-get install /tmp/fastfetch_latest_amd64.deb
 			;;
 		"arch")
-			sudo paru multitail tree zoxide trash-cli fzf bash-completion fastfetch
+			sudo paru multitail tree zoxide trash-cli fzf bash-completion fastfetch blesh
 			;;
 		"slackware")
 			echo "No install support for Slackware"
@@ -558,24 +507,6 @@ apacheconfig() {
 	fi
 }
 
-# Edit the PHP configuration file
-phpconfig() {
-	if [ -f /etc/php.ini ]; then
-		sedit /etc/php.ini
-	elif [ -f /etc/php/php.ini ]; then
-		sedit /etc/php/php.ini
-	elif [ -f /etc/php5/php.ini ]; then
-		sedit /etc/php5/php.ini
-	elif [ -f /usr/bin/php5/bin/php.ini ]; then
-		sedit /usr/bin/php5/bin/php.ini
-	elif [ -f /etc/php5/apache2/php.ini ]; then
-		sedit /etc/php5/apache2/php.ini
-	else
-		echo "Error: php.ini file could not be found."
-		echo "Searching for possible locations:"
-		sudo updatedb && locate php.ini
-	fi
-}
 
 # Edit the MySQL configuration file
 mysqlconfig() {
@@ -607,16 +538,6 @@ trim() {
 	echo -n "$var"
 }
 
-# GitHub  Additions
-gcom() {
-	git add .
-	git commit -m "$1"
-}
-lazyg() {
-	git add .
-	git commit -m "$1"
-	git push
-}
 
 function hb {
     if [ $# -eq 0 ]; then
@@ -641,8 +562,6 @@ function hb {
 # Set the ultimate amazing command prompt
 #######################################################
 
-alias hug="hugo server -F --bind=10.0.0.97 --baseURL=http://10.0.0.97"
-
 # Check if the shell is interactive
 if [[ $- == *i* ]]; then
     # Bind Ctrl+f to insert 'zi' followed by a newline
@@ -651,16 +570,18 @@ fi
 
 export PATH=$PATH:"$HOME/.local/bin:$HOME/.cargo/bin:/var/lib/flatpak/exports/bin:/.local/share/flatpak/exports/bin"
 
-#eval "$(starship init bash)"
-#eval "$(zoxide init bash)"
-#PS1='\e[32;1m\u@\h: \e[37m\W\e[0m\$ '
-#PS1="\n\e[0;33m  \e[0;32m\w       \u       :     \n\e[0;33m \e[0;32m  \e[0;37m"
-PS1="\[\e[31m\][\[\e[m\]\[\e[38;5;172m\]\u\[\e[m\]@\[\e[38;5;153m\]\h\[\e[m\] \[\e[38;5;214m\]\W\[\e[m\]\[\e[31m\]]\[\e[m\]\\$ "
-#force_color_prompt=yes
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH=$BUN_INSTALL/bin:$PATH
+#PS1="\n\e[0;33m  \e[0;32m\w       \u       :     \n\e[0;33m \e[0;32m  \e[0;37m"
+#PS1="\[\e[31m\][\[\e[m\]\[\e[38;5;172m\]\u\[\e[m\]@\[\e[38;5;153m\]\h\[\e[m\] \[\e[38;5;214m\]\W\[\e[m\]\[\e[31m\]]\[\e[m\]\\$  \n   "
+if [ "$EUID" -eq 0 ]; then
+  PS1="┌──[\[${COL_ROOT}\]\u@${COL_HOST}\h\[${COL_RESET}\]]─[\[${COL_PATH}\]\w\[${COL_RESET}\]]\n└─\[${COL_PATH}\]# \[${COL_RESET}\]"
+else
+  PS1="┌──[\[${COL_USER}\]\u@${COL_HOST}\h\[${COL_RESET}\]]─[\[${COL_PATH}\]\w\[${COL_RESET}\]]\n└─\[${COL_PATH}\]\$ \[${COL_RESET}\]"
+fi
+force_color_prompt=yes
+
 export PATH="$PATH:$HOME/platform-tools"
 
 export PATH=$PATH:"$HOME/.spicetify"
+
+[[ ${BLE_VERSION-} ]] && ble-attach
