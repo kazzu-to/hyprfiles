@@ -198,7 +198,7 @@
   "useAutoLocation": true,
   "weatherEnabled": true,
   "networkPreference": "wifi",
-  "vpnLastConnected": "",
+  "vpnLastConnected": "5b964f7c-240c-4a01-bd8d-2bc60c30a887",
   "iconTheme": "Tokyonight-Dark-Cyan",
   "launcherLogoMode": "os",
   "launcherLogoCustomPath": "",

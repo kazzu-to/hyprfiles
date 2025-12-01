@@ -112,6 +112,19 @@ ctrlcat0x() {
     fi
 }
 
+vpn() {
+	sudo pacman -S wireguard-tools networkmanager --needed --noconfirm
+	sudo mkdir -p /etc/wireguard
+
+	read -ep "$(echo -e "${GREEN}Enter complete path of wireguard config file: ${NC}")" inp
+	sudo cp $inp /etc/wireguard/
+	sudo chmod 600 /etc/wireguard/*
+	echo  -e "${GREEN}Enabling autostart at boot${NC}"
+	sudo systemctl enable wg-quick@wg0.service
+	echo  -e "${GREEN}Adding wireguard to networkmanager${NC}"
+	nmcli connection import type wireguard file /etc/wireguard/*
+}
+
 # --- Run everything ---
 running_everything() {
 	echo -e "${GREEN}Choose what to install/enable:"
@@ -121,7 +134,8 @@ running_everything() {
 	echo -e "4) Install Anya-cursor theme"
 	echo -e "5) Install collection anime cursors form ctrlcat0x system-wide"
 	echo -e "6) Do all above & set gtk theme to tokyonight-dark"
-	echo -e "7) Exit${NC}"
+	echo -e "7) Added wireguard vpn and autostart on boot"
+	echo -e "8) Exit${NC}"
 	
 	read -ep "$(echo -e "${GREEN}Select a option from above: ${NC}")" inp
 }
@@ -153,11 +167,14 @@ while true; do
 			cursor
 			gsettings set org.gnome.desktop.interface gtk-theme "Tokyonight-Dark"
 			break ;;
-		7)
+		7) 
+			vpn
+			break ;;
+		8)
 			echo -e "${RED} Exiting..${NC}"
 			exit 0 ;;
 		*)
-			echo -e "${RED}choose a vaild option${NC}"
+			echo -e "${RED}error: choose a vaild option${NC}"
 			;;
 	esac
 done
