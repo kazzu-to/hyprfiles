@@ -1,0 +1,8 @@
+{
+    "workbench.colorTheme": "Tokyo Night",
+    "clangd.path": "/home/bhaalu/.config/VSCodium/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/21.1.0/clangd_21.1.0/bin/clangd",
+    "code-runner.runInTerminal": true,
+    "window.menuBarVisibility": "compact",
+    "workbench.activityBar.location": "top",
+    "window.commandCenter": false
+}

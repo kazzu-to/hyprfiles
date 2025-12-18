@@ -1,3 +1,4 @@
+sys/.local/.ssh
 sys/.local/share/
 sys/.local/state/
 gtk-theme/.config/gtk-3.0/colors.css

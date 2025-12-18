@@ -1,0 +1,9 @@
+enkia.tokyo-night
+formulahendry.code-runner
+llvm-vs-code-extensions.vscode-clangd
+local.dynamic-base16-dankshell
+ms-python.debugpy
+ms-python.python
+ms-python.vscode-python-envs
+theqtcompany.qt-core
+theqtcompany.qt-python
