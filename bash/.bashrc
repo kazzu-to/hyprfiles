@@ -105,6 +105,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 # Alias's for SSH
 # alias SERVERNAME='ssh YOURWEBSITE.com -l USERNAME -p PORTNUMBERHERE'
+export SSH_CONFIG_FILE="$HOME/.local/.ssh/config"
 
 # Alias's to change the directory
 alias web='cd /var/www/html'
