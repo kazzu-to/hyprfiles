@@ -3,10 +3,9 @@
 set -euo pipefail
 
 # ========= CONFIG =========
-SSH_DIR="$HOME/.local/.ssh"
+SSH_DIR="$HOME/.ssh"
 KEY_NAME="id_ed25519"
 KEY_PATH="$SSH_DIR/$KEY_NAME"
-CONFIG_PATH="$SSH_DIR/config"
 EMAIL="${1:-}"
 
 # ========= CHECKS =========
@@ -35,50 +34,12 @@ fi
 chmod 600 "$KEY_PATH"
 chmod 644 "$KEY_PATH.pub"
 
-# ========= SSH CONFIG =========
-if [[ ! -f "$CONFIG_PATH" ]]; then
-  echo "📝 Creating SSH config..."
-  cat > "$CONFIG_PATH" <<EOF
-Host github.com
-  HostName github.com
-  User git
-  IdentityFile $KEY_PATH
-  IdentitiesOnly yes
-EOF
-else
-  echo "✔ SSH config already exists"
-fi
-
-chmod 600 "$CONFIG_PATH"
-
-# ========= EXPORT CONFIG ENV =========
-SHELL_RC=""
-if [[ -n "${BASH_VERSION:-}" ]]; then
-  SHELL_RC="$HOME/.bashrc"
-elif [[ -n "${ZSH_VERSION:-}" ]]; then
-  SHELL_RC="$HOME/.zshrc"
-fi
-
-if [[ -n "$SHELL_RC" ]]; then
-  if ! grep -q "SSH_CONFIG_FILE=.*\.local/.ssh/config" "$SHELL_RC"; then
-    echo "🔧 Adding SSH_CONFIG_FILE to $SHELL_RC"
-    echo 'export SSH_CONFIG_FILE="$HOME/.local/.ssh/config"' >> "$SHELL_RC"
-  else
-    echo "✔ SSH_CONFIG_FILE already set in $SHELL_RC"
-  fi
-fi
-
 # ========= SSH AGENT =========
 if ! ssh-add -l >/dev/null 2>&1; then
-  echo "🚀 Starting ssh-agent..."
   eval "$(ssh-agent -s)"
 fi
 
-if ! ssh-add -l | grep -q "$KEY_PATH"; then
-  ssh-add "$KEY_PATH"
-else
-  echo "✔ SSH key already loaded in agent"
-fi
+ssh-add "$KEY_PATH" >/dev/null 2>&1 || true
 
 # ========= OUTPUT =========
 echo
@@ -89,5 +50,5 @@ echo "--------------------------------"
 cat "$KEY_PATH.pub"
 echo "--------------------------------"
 echo
-echo "Then test with:"
+echo "Test with:"
 echo "  ssh -T git@github.com"
