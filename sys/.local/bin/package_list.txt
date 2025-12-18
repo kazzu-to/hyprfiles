@@ -1,6 +1,7 @@
 adobe-source-han-sans-otc-fonts
 amd-ucode
 android-tools
+adw-gtk-theme
 base
 base-devel
 bash-language-server
@@ -15,7 +16,6 @@ cliphist
 cmake
 cpio
 cronie
-dms-shell-bin
 efibootmgr
 egl-wayland
 fastfetch
@@ -59,6 +59,7 @@ neovim-nightly-bin
 nerd-fonts-noto-sans-mono
 net-tools
 networkmanager
+noctalia-shell
 noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji

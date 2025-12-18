@@ -1,6 +1,6 @@
 #!/bin/bash
 
-command dms ipc call powermenu toggle
+command qs -c noctalia-shell ipc call sessionMenu toggle || dms ipc call powermenu toggle
 
 if [[ $? -ne 0 ]]; then
 
