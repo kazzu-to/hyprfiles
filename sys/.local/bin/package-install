@@ -71,8 +71,8 @@ for item in "${packages[@]}" ; do
 	if [[ $? -ne 0 ]]; then 
 		case "$aur_helper" in
 			paru)
-				paru -S --noconfirm --needed
-				#echo "1" | paru --skipreview -S  $item --noconfirm --needed 
+				#paru -S --noconfirm --needed
+				echo "1" | paru --skipreview -S  $item --noconfirm --needed 
 				;;
 			yay)
 				yay -S $item --noconfirm --needed 
