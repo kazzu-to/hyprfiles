@@ -27,7 +27,7 @@ stowupdate() {
     read -ep "$(echo -e "${GREEN}Enter path of cloned hyprfiles repo [${default_path}]: ${NC}")" loc
     loc=${loc:-$default_path}
     cd $loc
-    stow sys hypr fastfetch swappy fish kitty matugen DankMaterualShell nvim rofi
+    stow sys hypr fastfetch swappy fish kitty matugen DankMaterualShell nvim rofi noctalia 
 
     cd "$loc" || { echo -e "${RED}Path not found: $loc${NC}"; exit 1; }
 

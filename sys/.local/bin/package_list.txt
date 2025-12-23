@@ -13,8 +13,6 @@ brightnessctl
 btop
 btrfs-progs
 cliphist
-cmake
-cpio
 cronie
 efibootmgr
 egl-wayland
@@ -41,7 +39,6 @@ hyprlock
 hypridle
 hyprland
 hyprpolkitagent
-iwd
 kdeconnect
 kooha
 kitty
@@ -55,9 +52,10 @@ midnight-gtk-theme-git
 mpv
 nano
 nautilus
-neovim-nightly-bin
+neovim
 nerd-fonts-noto-sans-mono
 net-tools
+ntfs-3g
 networkmanager
 noctalia-shell
 noto-fonts
@@ -108,7 +106,6 @@ slurp
 sof-firmware
 stow
 swappy
-swww
 sxiv
 systemd-timer-notify
 timeshift
@@ -142,6 +139,7 @@ wget
 wireguard-tools
 wireless_tools
 wireplumber
+wlsunset
 xdg-desktop-portal-hyprland
 xdg-user-dirs
 xdg-user-dirs-gtk

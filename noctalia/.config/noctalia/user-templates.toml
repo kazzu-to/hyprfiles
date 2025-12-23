@@ -31,3 +31,8 @@ output_path = "~/.config/rofi/colors.rasi"
 input_path = "~/.config/matugen/templates/kitty-colors.conf"
 output_path = "~/.config/kitty/colors.conf"
 post_hook = "pkill -SIGUSR1 kitty"
+
+[templates.neovim]
+input_path = '~/.config/matugen/nvim.lua'
+output_path = '~/.config/nvim/generated.lua'
+post_hook = 'pkill -SIGUSR1 nvim'

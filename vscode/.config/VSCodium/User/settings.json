@@ -1,8 +1,15 @@
 {
-    "workbench.colorTheme": "Tokyo Night",
+    "workbench.colorTheme": "Tokyo Night Light",
     "clangd.path": "/home/bhaalu/.config/VSCodium/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/21.1.0/clangd_21.1.0/bin/clangd",
     "code-runner.runInTerminal": true,
     "window.menuBarVisibility": "compact",
     "workbench.activityBar.location": "top",
-    "window.commandCenter": false
+    "window.commandCenter": false,
+    "files.autoSave": "afterDelay",
+    "qt-core.additionalQtPaths": [
+        {
+            "name": "Qt-5.15.18-linux-g++_from_PATH",
+            "path": "/usr/sbin/qmake"
+        }
+    ]
 }

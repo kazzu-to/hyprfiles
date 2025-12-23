@@ -4,6 +4,7 @@
         "customLaunchPrefixEnabled": false,
         "enableClipPreview": true,
         "enableClipboardHistory": true,
+        "iconMode": "tabler",
         "pinnedExecs": [
         ],
         "position": "center",
@@ -19,8 +20,7 @@
         "mprisBlacklist": [
         ],
         "preferredPlayer": "",
-        "visualizerQuality": "high",
-        "visualizerType": "wave",
+        "visualizerType": "linear",
         "volumeOverdrive": false,
         "volumeStep": 5
     },
@@ -41,6 +41,14 @@
         "widgets": {
             "center": [
                 {
+                    "customFont": "",
+                    "formatHorizontal": "HH:mm ddd, MMM dd",
+                    "formatVertical": "HH mm - dd MM",
+                    "id": "Clock",
+                    "useCustomFont": false,
+                    "usePrimaryColor": true
+                },
+                {
                     "diskPath": "/",
                     "id": "SystemMonitor",
                     "showCpuTemp": true,
@@ -50,14 +58,6 @@
                     "showMemoryAsPercent": true,
                     "showMemoryUsage": true,
                     "showNetworkStats": true,
-                    "usePrimaryColor": true
-                },
-                {
-                    "customFont": "",
-                    "formatHorizontal": "HH:mm ddd, MMM dd",
-                    "formatVertical": "HH mm - dd MM",
-                    "id": "Clock",
-                    "useCustomFont": false,
                     "usePrimaryColor": true
                 },
                 {
@@ -116,15 +116,22 @@
                     "showVisualizer": true,
                     "useFixedWidth": false,
                     "visualizerType": "wave"
+                },
+                {
+                    "id": "plugin:privacy-indicator"
                 }
             ],
             "right": [
+                {
+                    "id": "plugin:todo"
+                },
                 {
                     "displayMode": "onhover",
                     "id": "WiFi"
                 },
                 {
-                    "displayMode": "onhover",
+                    "deviceNativePath": "",
+                    "displayMode": "alwaysShow",
                     "id": "Battery",
                     "showNoctaliaPerformance": true,
                     "showPowerProfiles": true,
@@ -157,6 +164,9 @@
                     "hideWhenZero": true,
                     "id": "NotificationHistory",
                     "showUnreadBadge": true
+                },
+                {
+                    "id": "plugin:catwalk"
                 }
             ]
         }
@@ -193,7 +203,7 @@
         "manualSunset": "18:30",
         "matugenSchemeType": "scheme-content",
         "predefinedScheme": "Noctalia (default)",
-        "schedulingMode": "off",
+        "schedulingMode": "manual",
         "useWallpaperColors": true
     },
     "controlCenter": {
@@ -250,10 +260,24 @@
         }
     },
     "desktopWidgets": {
-        "editMode": false,
         "enabled": false,
         "gridSnap": false,
         "monitorWidgets": [
+            {
+                "name": "eDP-1",
+                "widgets": [
+                    {
+                        "hideMode": "visible",
+                        "id": "MediaPlayer",
+                        "showBackground": false,
+                        "showButtons": true,
+                        "visualizerType": "wave",
+                        "visualizerVisibility": "always",
+                        "x": 1449.8203125,
+                        "y": 40.6640625
+                    }
+                ]
+            }
         ]
     },
     "dock": {
@@ -277,7 +301,7 @@
         "allowPanelsOnScreenWithoutBar": true,
         "animationDisabled": false,
         "animationSpeed": 1,
-        "avatarImage": "/home/bhaalu/Pictures/Wallpapers/wallhaven_13xxrv.jpg",
+        "avatarImage": "/home/bhaalu/Pictures/Wallpapers/wallhaven_v9w773.jpg",
         "boxRadiusRatio": 1,
         "compactLockScreen": false,
         "dimmerOpacity": 0.2,
@@ -298,7 +322,9 @@
     },
     "hooks": {
         "darkModeChange": "",
-        "enabled": false,
+        "enabled": true,
+        "performanceModeDisabled": "",
+        "performanceModeEnabled": "",
         "screenLock": "",
         "screenUnlock": "",
         "wallpaperChange": ""
@@ -321,7 +347,7 @@
     "nightLight": {
         "autoSchedule": true,
         "dayTemp": "6500",
-        "enabled": true,
+        "enabled": false,
         "forced": false,
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
@@ -357,7 +383,8 @@
             0,
             1,
             2,
-            4
+            4,
+            3
         ],
         "location": "top_right",
         "monitors": [
@@ -454,6 +481,7 @@
         "fuzzel": false,
         "ghostty": false,
         "gtk": true,
+        "hyprland": false,
         "kcolorscheme": false,
         "kitty": false,
         "mango": false,
@@ -469,6 +497,8 @@
         "zed": false
     },
     "ui": {
+        "bluetoothDetailsViewMode": "grid",
+        "bluetoothHideUnnamedDevices": false,
         "fontDefault": "OpenDyslexic Nerd Font",
         "fontDefaultScale": 1,
         "fontFixed": "monospace",
@@ -476,10 +506,11 @@
         "panelBackgroundOpacity": 0.85,
         "panelsAttachedToBar": true,
         "settingsPanelMode": "attached",
-        "tooltipsEnabled": true
+        "tooltipsEnabled": true,
+        "wifiDetailsViewMode": "grid"
     },
     "wallpaper": {
-        "directory": "/home/bhaalu/Pictures/Wallpapers",
+        "directory": "/home/bhaalu/Pictures/walls/PC",
         "enableMultiMonitorDirectories": false,
         "enabled": true,
         "fillColor": "#000000",
@@ -490,20 +521,21 @@
         "overviewEnabled": false,
         "panelPosition": "follow_bar",
         "randomEnabled": false,
-        "randomIntervalSec": 300,
+        "randomIntervalSec": 1800,
         "recursiveSearch": false,
         "setWallpaperOnAllMonitors": true,
         "transitionDuration": 1500,
         "transitionEdgeSmoothness": 0.05,
         "transitionType": "random",
-        "useWallhaven": false,
+        "useWallhaven": true,
         "wallhavenCategories": "110",
         "wallhavenOrder": "desc",
         "wallhavenPurity": "111",
         "wallhavenQuery": "",
+        "wallhavenRatios": "",
         "wallhavenResolutionHeight": "1440",
         "wallhavenResolutionMode": "atleast",
         "wallhavenResolutionWidth": "2560",
-        "wallhavenSorting": "toplist"
+        "wallhavenSorting": "views"
     }
 }
