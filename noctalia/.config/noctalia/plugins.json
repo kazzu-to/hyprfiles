@@ -12,9 +12,6 @@
         },
         "privacy-indicator": {
             "enabled": true
-        },
-        "todo": {
-            "enabled": true
         }
     },
     "version": 1

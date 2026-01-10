@@ -93,6 +93,7 @@ python-pywal16
 python-requests
 qt5-wayland
 qt6-wayland
+qt5ct
 qt6ct-kde
 quickshell
 refind

@@ -56,7 +56,10 @@ enable_services() {
         if ! sudo systemctl enable "$svc"; then
             echo -e "${RED}Couldn’t enable $svc${NC}"
         fi
+    
     done
+  "$HOME/.local/bin/pac-lid.sh" || true
+  "$HOME/.local/bin/nvidia-conf.sh" || true
 }
 
 grub() {
