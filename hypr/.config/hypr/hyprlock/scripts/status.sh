@@ -16,7 +16,9 @@ battery_state=$(echo "$battery_info" | grep state | awk '{print $2}')
 
 # Determine the glyph based on battery percentage and state
 if [[ "$battery_state" == "charging" ]]; then
-    battery_glyph=" "  # Full battery glyph when charging
+    battery_glyph=" "  # Full battery glyph when charging
+elif [[ "$battery_state"  == "pending-charge" ]]; then
+    battery_glyph=" " # charging paused 
 elif [[ "$battery_percentage" -ge 50 ]]; then
     battery_glyph=" " # Half battery glyph for 50% or above
 elif [[ "$battery_percentage" -ge 20 ]]; then

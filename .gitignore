@@ -18,3 +18,7 @@ DankMaterualShell/.config/DankMaterialShell/plugins/.repos/
 DankMaterualShell/.config/DankMaterialShell/plugins/dankHooks.meta
 qt-theme/.config/qt5ct/style-colors.conf
 rofi/.config/rofi/colors.rasi
+noctalia/.config/noctalia/colors.json
+noctalia/.config/noctalia/colorschemes
+noctalia/.config/noctalia/pam
+noctalia/.config/noctalia/plugins
