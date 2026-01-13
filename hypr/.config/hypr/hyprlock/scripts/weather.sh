@@ -23,4 +23,4 @@ if [[ -z "$city" ]]; then
   exit 1
 fi
 
-curl -s wttr.in/"$city"?format=4
+curl -s wttr.in/"$city"?format=3
