@@ -11,5 +11,6 @@
             "path": "/usr/sbin/qmake"
         }
     ],
-    "workbench.colorTheme": "Tokyo Night"
+    "workbench.colorTheme": "Tokyo Night",
+    "chat.disableAIFeatures": false
 }
