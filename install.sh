@@ -48,6 +48,7 @@ pkg() {
         echo -e "${RED}package-install not found at ~/.local/bin/${NC}"
         exit 4
     fi
+    git clone https://github.com/Shanu-Kumawat/quickshell-overview ~/.config/quickshell/overview
 }
 
 enable_services() {
