@@ -34,13 +34,14 @@
         "density": "comfortable",
         "exclusive": true,
         "floating": false,
+        "hideOnOverview": false,
         "marginHorizontal": 5,
         "marginVertical": 5,
         "monitors": [
         ],
         "outerCorners": true,
         "position": "left",
-        "showCapsule": true,
+        "showCapsule": false,
         "showOutline": false,
         "useSeparateOpacity": false,
         "widgets": {
@@ -80,6 +81,7 @@
                     "hideMode": "alwaysExpanded",
                     "icon": "rocket",
                     "id": "CustomButton",
+                    "ipcIdentifier": "",
                     "leftClickExec": "qs -c noctalia-shell ipc call launcher toggle",
                     "leftClickUpdateText": false,
                     "maxTextLength": {
@@ -164,6 +166,26 @@
                     "middleClickCommand": "pwvucontrol || pavucontrol"
                 },
                 {
+                    "defaultSettings": {
+                        "completedCount": 0,
+                        "count": 0,
+                        "showBackground": true,
+                        "showCompleted": true,
+                        "todos": [
+                        ]
+                    },
+                    "id": "plugin:todo"
+                },
+                {
+                    "colorizeDistroLogo": false,
+                    "colorizeSystemIcon": "primary",
+                    "customIconPath": "",
+                    "enableColorization": false,
+                    "icon": "adjustments-filled",
+                    "id": "ControlCenter",
+                    "useDistroLogo": false
+                },
+                {
                     "blacklist": [
                     ],
                     "colorizeIcons": false,
@@ -172,15 +194,6 @@
                     "id": "Tray",
                     "pinned": [
                     ]
-                },
-                {
-                    "colorizeDistroLogo": false,
-                    "colorizeSystemIcon": "primary",
-                    "customIconPath": "",
-                    "enableColorization": true,
-                    "icon": "noctalia",
-                    "id": "ControlCenter",
-                    "useDistroLogo": false
                 },
                 {
                     "hideWhenZero": true,
@@ -279,22 +292,12 @@
         }
     },
     "desktopWidgets": {
-        "enabled": false,
-        "gridSnap": false,
+        "enabled": true,
+        "gridSnap": true,
         "monitorWidgets": [
             {
                 "name": "eDP-1",
                 "widgets": [
-                    {
-                        "hideMode": "visible",
-                        "id": "MediaPlayer",
-                        "showBackground": false,
-                        "showButtons": true,
-                        "visualizerType": "wave",
-                        "visualizerVisibility": "always",
-                        "x": 1449.8203125,
-                        "y": 40.6640625
-                    }
                 ]
             }
         ]
@@ -321,10 +324,10 @@
         "allowPanelsOnScreenWithoutBar": true,
         "animationDisabled": false,
         "animationSpeed": 1,
-        "avatarImage": "/home/bhaalu/Pictures/Wallpapers/wallhaven_v9w773.jpg",
+        "avatarImage": "",
         "boxRadiusRatio": 1,
         "compactLockScreen": false,
-        "dimmerOpacity": 0.2,
+        "dimmerOpacity": 0,
         "enableShadows": true,
         "forceBlackScreenCorners": false,
         "iRadiusRatio": 1,
@@ -339,7 +342,8 @@
         "showChangelogOnStartup": true,
         "showHibernateOnLockScreen": false,
         "showScreenCorners": false,
-        "showSessionButtonsOnLockScreen": true
+        "showSessionButtonsOnLockScreen": true,
+        "telemetryEnabled": false
     },
     "hooks": {
         "darkModeChange": "",
@@ -348,17 +352,18 @@
         "performanceModeEnabled": "",
         "screenLock": "",
         "screenUnlock": "",
+        "session": "",
         "wallpaperChange": ""
     },
     "location": {
         "analogClockInCalendar": true,
         "firstDayOfWeek": -1,
-        "hideWeatherCityName": false,
-        "hideWeatherTimezone": false,
-        "name": "Jaipur, IN",
+        "hideWeatherCityName": true,
+        "hideWeatherTimezone": true,
+        "name": "Jaipur,IN",
         "showCalendarEvents": true,
         "showCalendarWeather": true,
-        "showWeekNumberInCalendar": false,
+        "showWeekNumberInCalendar": true,
         "use12hourFormat": false,
         "useFahrenheit": false,
         "weatherEnabled": true,
@@ -375,7 +380,7 @@
     "nightLight": {
         "autoSchedule": true,
         "dayTemp": "6500",
-        "enabled": false,
+        "enabled": true,
         "forced": false,
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
@@ -471,7 +476,7 @@
         "showHeader": true,
         "showNumberLabels": true
     },
-    "settingsVersion": 39,
+    "settingsVersion": 40,
     "systemMonitor": {
         "cpuCriticalThreshold": 80,
         "cpuPollingInterval": 3000,
@@ -497,32 +502,21 @@
         "warningColor": "#f2b3e4"
     },
     "templates": {
-        "alacritty": false,
-        "cava": false,
-        "code": false,
-        "discord": false,
-        "emacs": false,
-        "enableUserTemplates": true,
-        "foot": false,
-        "fuzzel": false,
-        "ghostty": false,
-        "gtk": true,
-        "helix": false,
-        "hyprland": false,
-        "kcolorscheme": false,
-        "kitty": false,
-        "mango": false,
-        "niri": false,
-        "pywalfox": false,
-        "qt": true,
-        "spicetify": false,
-        "telegram": false,
-        "vicinae": false,
-        "walker": false,
-        "wezterm": false,
-        "yazi": false,
-        "zed": false,
-        "zenBrowser": false
+        "activeTemplates": [
+            {
+                "enabled": true,
+                "id": "discord"
+            },
+            {
+                "enabled": true,
+                "id": "code"
+            },
+            {
+                "enabled": true,
+                "id": "yazi"
+            }
+        ],
+        "enableUserTemplates": true
     },
     "ui": {
         "bluetoothDetailsViewMode": "grid",
@@ -533,7 +527,7 @@
         "fontFixed": "OpenDyslexicM Nerd Font Mono",
         "fontFixedScale": 1,
         "networkPanelView": "wifi",
-        "panelBackgroundOpacity": 0.85,
+        "panelBackgroundOpacity": 0.8,
         "panelsAttachedToBar": true,
         "settingsPanelMode": "attached",
         "tooltipsEnabled": true,
@@ -569,7 +563,7 @@
         "wallhavenResolutionHeight": "1440",
         "wallhavenResolutionMode": "atleast",
         "wallhavenResolutionWidth": "2560",
-        "wallhavenSorting": "favorites",
+        "wallhavenSorting": "toplist",
         "wallpaperChangeMode": "random"
     }
 }

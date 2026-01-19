@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 
 
 echo "This script needs sudo privs. Please enter your password."
@@ -47,23 +47,6 @@ if [[ ! -f "$package_path" ]]; then
     exit 1   # Exit script if file is missing
 fi
 
-: << 'comment'
-if command -v sysupdate &> /dev/null ; then
-	sysupdate 
-else 
-	cd "$HOME/.local/bin"
-	sudo ./sysupdate
-	#sudo pacman -S git stow --noconfirm --needed
-	#git clone https://github.com/kazzu-to/hyprfiles
-	#cd hyprfiles
-	#stow sys 
-	#cd $HOME
-	#./sysupdate
-	echo -e "{RED}sysupdate not found at ~/.local/bin or shell PATH not configured"
-	
-fi
-comment
-
 mapfile -t packages < "$package_path"
  
 for item in "${packages[@]}" ; do
@@ -86,18 +69,24 @@ for item in "${packages[@]}" ; do
 done 
 
 function colloid(){
-	cd "$HOME/.cache/"
+	cd "/tmp"
 	git clone https://github.com/vinceliuice/Colloid-gtk-theme.git
 	cd Colloid-gtk-theme
 	sudo ./install.sh
-	cd ..
-	rm -rf Colloid-gtk-theme.git
+    cd "$HOME"
 	echo -e "{GREEN}Installed colloid{NC}"
 }
 
+function graphite(){
+  cd "/tmp"
+  git clone  https://github.com/vinceliuice/Graphite-gtk-theme.git
+  cd Graphite-gtk-theme
+  sudo ./install.sh -t all --tweaks rimless black normal
+  cd "$HOME"
+  echo -e "{GREEN}Installed Graphite{NC}"
+}
+
 #wget -qO- https://raw.githubusercontent.com/Rokin05/midnight-kde/master/install.sh | sh
-colloid
+graphite
 
 #flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-#flatpak install flathub io.github.nuttyartist.notes
-flatpak install --noninteractive --or-update -y flathub org.kde.kalk

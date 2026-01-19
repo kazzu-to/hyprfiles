@@ -4,7 +4,7 @@
 @import "../colors.rasi"
 
 * {
-  background:    @secondary-container;
+  background:    rgba ( 0, 0, 0, 80 % );
   background-alt: @primary-container;
   //border:        @shadow;
   border:        @outline;

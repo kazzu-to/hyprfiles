@@ -18,3 +18,7 @@ output_path = "~/.config/rofi/colors.rasi"
 input_path = "~/.config/matugen/templates/kitty-colors.conf"
 output_path = "~/.config/kitty/colors.conf"
 post_hook = "pkill -SIGUSR1 kitty"
+
+[templates.quickshell_overview]
+input_path  = "~/.config/matugen/templates/quickshell-overview.qml"
+output_path = "~/.config/quickshell/overview/common/Appearance.colors.qml"

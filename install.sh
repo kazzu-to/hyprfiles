@@ -1,184 +1,189 @@
 
 #!/usr/bin/env bash
+set -Eeuo pipefail
 
-# Ask for the password up front and refresh every minute
+# ================== SUDO KEEPALIVE ==================
 sudo -k
 sudo -v
-# Start a background job to refresh the sudo timestamp until the script exits
 ( while true; do sudo -n true; sleep 60; done ) &
 KEEPALIVE_PID=$!
+trap 'kill $KEEPALIVE_PID 2>/dev/null || true' EXIT
 
-# Ensure we kill the background job on exit
-trap 'kill $KEEPALIVE_PID' EXIT
-
-# --- Colors ---
+# ================== COLORS ==================
 RED=$'\033[0;31m'
 GREEN=$'\033[0;32m'
-NC=$'\033[0m' # No Color
+YELLOW=$'\033[1;33m'
+NC=$'\033[0m'
 
-user=$(logname)
-user_home=$(eval echo ~$user)
-# --- Install stow ---
+trap 'echo -e "\n${RED}Error on line $LINENO.${NC}"' ERR
+
+# ================== USER ==================
+user=${SUDO_USER:-$USER}
+user_home=$(eval echo "~$user")
+
+# ================== DEP ==================
 sudo pacman -Syyu stow --noconfirm --needed
 
-# --- Functions ---
+# =====================================================
+# ================= INSTALL FUNCTIONS =================
+# =====================================================
+
 stowupdate() {
     default_path="$user_home/hyprfiles/"
-    read -ep "$(echo -e "${GREEN}Enter path of cloned hyprfiles repo [${default_path}]: ${NC}")" loc
+    read -ep "$(echo -e "${GREEN}Hyprfiles path [${default_path}]: ${NC}")" loc
     loc=${loc:-$default_path}
-    cd $loc
-    stow sys hypr fastfetch swappy fish kitty matugen DankMaterualShell nvim rofi noctalia 
 
-    cd "$loc" || { echo -e "${RED}Path not found: $loc${NC}"; exit 1; }
+    cd "$loc" || exit 1
+    stow sys hypr fastfetch swappy fish kitty matugen DankMaterualShell nvim rofi noctalia
 
-    if [[ -f "$user_home/.local/bin/sysupdate" ]]; then
-        echo -e "${GREEN}Running sysupdate${NC}"
-        sudo -u $user bash "$user_home/.local/bin/sysupdate"
-    else
-        echo -e "${RED}sysupdate script not found${NC}"
-        exit 2
-    fi
+    bash "$user_home/.config/hypr/hyprland/xf86.sh"
+    sudo -u "$user" bash "$user_home/.local/bin/sysupdate"
 }
 
 pkg() {
-    if [[ -f "$user_home/.local/bin/package-install" ]]; then
-        echo -e "${GREEN}Installing packages${NC}"
-        sudo -u $user bash "$user_home/.local/bin/package-install"
-    else
-        echo -e "${RED}package-install not found at ~/.local/bin/${NC}"
-        exit 4
-    fi
-    git clone https://github.com/Shanu-Kumawat/quickshell-overview ~/.config/quickshell/overview
+    sudo -u "$user" bash "$user_home/.local/bin/package-install"
+
+    [[ ! -d "$user_home/.config/quickshell/overview" ]] &&
+        git clone https://github.com/Shanu-Kumawat/quickshell-overview \
+        "$user_home/.config/quickshell/overview"
 }
 
 enable_services() {
-    list=(bluetooth ly ufw noctalia)
-    for svc in "${list[@]}"; do
-        if ! sudo systemctl enable "$svc"; then
-            echo -e "${RED}Couldn’t enable $svc${NC}"
-        fi
-    
+    for svc in bluetooth ly ufw noctalia; do
+        sudo systemctl enable "$svc" --now || true
     done
-  "$HOME/.local/bin/pac-lid.sh" || true
-  "$HOME/.local/bin/nvidia-conf.sh" || true
-}
-
-grub() {
-    if [[ -f "$user_home/.local/bin/grub_install" ]]; then
-        sudo -H bash "$user_home/.local/bin/grub_install"
-    else
-        echo -e "${RED}'sys' folder isn't stow'ed yet${NC}"
-        exit 5
-    fi
-}
-
-refind() {
-    if [[ -f "$user_home/.local/bin/refind_install" ]]; then
-        sudo -H bash "$user_home/.local/bin/refind_install"
-    else
-        echo -e "${RED}failed to run refind_install${NC}"
-        exit 6
-    fi
 }
 
 bootloader() {
-    read -ep "$(echo -e "${RED}Which bootloader to install (refind/grub) [refind]: ${NC}")" choice
-    choice=${choice:-refind}
-    case "$choice" in
-        refind) refind ;;
-        grub) grub ;;
-        *) echo -e "${RED}Invalid input${NC}" ;;
-    esac
+    read -ep "$(echo -e "${GREEN}Bootloader (refind/grub) [refind]: ${NC}")" b
+    b=${b:-refind}
+    [[ $b == grub ]] && sudo bash "$user_home/.local/bin/grub_install"
+    [[ $b == refind ]] && sudo bash "$user_home/.local/bin/refind_install"
 }
 
 cursor() {
-	destdir="$user_home/.local/share/icons"
-	if [ -d "$destdir/Anya-cursors" ]; then
-	  rm -rf "$destdir/Anya-cursors"
-	fi
-
-	if [[ -d "$destdir" ]]; then
-		cp -r Anya-cursors $destdir
-	else 
-		mkdir -p $destdir
-		sudo chown -R $user:$user $destdir
-		cp -r Anya-cursors  $destdir
-	fi
+    dest="$user_home/.local/share/icons"
+    mkdir -p "$dest"
+    rm -rf "$dest/Anya-cursors"
+    cp -r Anya-cursors "$dest"
 }
 
 ctrlcat0x() {
- if [[ -f "$user_home/.local/bin/cursors.sh" ]]; then
-        echo -e "${GREEN}Installing cursors by ctrlcat0x${NC}"
-        sudo -u $user bash "$user_home/.local/bin/cursors.sh"
-    else
-        echo -e "${RED}cursors.sh not found at ~/.local/bin/${NC}"
-        exit 45
-    fi
+    sudo -u "$user" bash "$user_home/.local/bin/cursors.sh"
 }
 
 vpn() {
-	sudo pacman -S wireguard-tools networkmanager --needed --noconfirm
-	sudo mkdir -p /etc/wireguard
+    sudo pacman -S wireguard-tools networkmanager --needed --noconfirm
 
-	read -ep "$(echo -e "${GREEN}Enter complete path of wireguard config file: ${NC}")" inp
-	sudo cp $inp /etc/wireguard/
-	sudo chmod 600 /etc/wireguard/*
-	echo  -e "${GREEN}Enabling autostart at boot${NC}"
-	sudo systemctl enable wg-quick@wg0.service
-	echo  -e "${GREEN}Adding wireguard to networkmanager${NC}"
-	nmcli connection import type wireguard file /etc/wireguard/*
+    read -ep "$(echo -e "${GREEN}WireGuard config path: ${NC}")" cfg
+    sudo cp "$cfg" /etc/wireguard/
+    conf=$(basename "$cfg" .conf)
+
+    sudo systemctl enable "wg-quick@$conf.service"
+    nmcli connection import type wireguard file "/etc/wireguard/$conf.conf"
 }
 
-# --- Run everything ---
-running_everything() {
-	echo -e "${GREEN}Choose what to install/enable:"
-	echo -e "1) stow 'sys' folder and update system"
-	echo -e "2) Install all packages"
-	echo -e "3) Enable ly, ufw & bluwtooth"
-	echo -e "4) Install Anya-cursor theme"
-	echo -e "5) Install collection anime cursors form ctrlcat0x system-wide"
-	echo -e "6) Do all above & set gtk theme to tokyonight-dark"
-	echo -e "7) Added wireguard vpn and autostart on boot"
-	echo -e "8) Exit${NC}"
-	
-	read -ep "$(echo -e "${GREEN}Select a option from above: ${NC}")" inp
+# =====================================================
+# ================= UNINSTALL FUNCTIONS ================
+# =====================================================
+
+unstow() {
+    cd "$user_home/hyprfiles" || exit 1
+    stow -D sys hypr fastfetch swappy fish kitty matugen DankMaterualShell nvim rofi noctalia
 }
 
-while true; do
-	running_everything
-	case "$inp" in
-		1)
-			stowupdate
-			break ;;
-		2)
-			pkg 
-			break;;
-		3)
-			enable_services 
-			break ;;
-			#sudo -u "$user" bash -c "$(declare -f hyprplugins); hyprplugins"
-		4)
-			cursor 
-			break ;;
-		5)
-			ctrlcat0x
-			break ;;
-		6)
-			stowupdate
-			pkg
-			bootloader
-			enable_services
-			cursor
-			gsettings set org.gnome.desktop.interface gtk-theme "Tokyonight-Dark"
-			break ;;
-		7) 
-			vpn
-			break ;;
-		8)
-			echo -e "${RED} Exiting..${NC}"
-			exit 0 ;;
-		*)
-			echo -e "${RED}error: choose a vaild option${NC}"
-			;;
-	esac
-done
+unpkg() {
+    sudo pacman -Rns --noconfirm \
+        $(cat "$user_home/.local/bin/package-install" \
+        | grep pacman | sed 's/.*-S //')
+}
+
+unbootloader() {
+    echo -e "${YELLOW}Bootloader removal must be done manually.${NC}"
+}
+
+uncursor() {
+    rm -rf "$user_home/.local/share/icons/Anya-cursors"
+}
+
+unctrlcat0x() {
+    rm -rf /usr/share/icons/*ctrlcat*
+}
+
+unvpn() {
+    sudo systemctl disable wg-quick@*.service || true
+    sudo rm -rf /etc/wireguard
+    nmcli connection delete type wireguard || true
+}
+
+# =====================================================
+# ================= MENU HANDLERS =====================
+# =====================================================
+
+install_menu() {
+    echo -e "${GREEN}
+1) Stow dotfiles + system update
+2) Install all packages
+3) Enable services
+4) Install Anya cursor
+5) Install ctrlcat0x cursors
+6) Full install (all)
+7) WireGuard VPN
+8) Exit
+${NC}"
+    read -rp "Select option: " c
+
+    case "$c" in
+        1) stowupdate ;;
+        2) pkg ;;
+        3) enable_services ;;
+        4) cursor ;;
+        5) ctrlcat0x ;;
+        6) stowupdate; pkg; bootloader; enable_services; cursor ;;
+        7) vpn ;;
+        8) exit 0 ;;
+        *) echo -e "${RED}Invalid option${NC}" ;;
+    esac
+}
+
+uninstall_menu() {
+    echo -e "${RED}
+1) Remove stowed dotfiles
+2) Remove installed packages
+3) Remove bootloader (manual)
+4) Remove Anya cursor
+5) Remove ctrlcat0x cursors
+6) Remove WireGuard VPN
+7) Exit
+${NC}"
+    read -rp "Select option: " c
+
+    case "$c" in
+        1) unstow ;;
+        2) unpkg ;;
+        3) unbootloader ;;
+        4) uncursor ;;
+        5) unctrlcat0x ;;
+        6) unvpn ;;
+        7) exit 0 ;;
+        *) echo -e "${RED}Invalid option${NC}" ;;
+    esac
+}
+
+# =====================================================
+# ================= ENTRY =============================
+# =====================================================
+
+echo -e "${GREEN}
+Choose mode:
+1) Install
+2) Uninstall
+${NC}"
+
+read -rp "Select: " mode
+
+case "$mode" in
+    1) install_menu ;;
+    2) uninstall_menu ;;
+    *) echo -e "${RED}Invalid selection${NC}" ;;
+esac

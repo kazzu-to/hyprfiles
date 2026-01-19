@@ -42,13 +42,13 @@ hyprpolkitagent
 kdeconnect
 kooha
 kitty
+kalk
 libpulse
 librewolf-bin
 ly
 man-db
 meson
 matugen-bin
-midnight-gtk-theme-git
 mpv
 nano
 nautilus
