@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-while true; do 
     dependencies=("jq" "ifconfig" "grep" "curl")
     
     for item in "${dependencies[@]}" ; do 
@@ -24,6 +23,4 @@ while true; do
       exit 1
     fi
     
-    curl -s wttr.in/"$city"?format=3 > weather
-    sleep 1800
-done
+    curl -s wttr.in/"$city"?format=3 > $HOME/.config/hypr/hyprlock/weather
