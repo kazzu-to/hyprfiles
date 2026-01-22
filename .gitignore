@@ -11,6 +11,7 @@ kitty/.config/kitty/dank-theme.conf
 qt-theme/.config/qt5ct/colors
 qt-theme/.config/qt6ct/colors
 hypr/.config/hypr/colors.conf
+hypr/.config/hypr/hyprlock/scripts/weather
 kitty/.config/kitty/dank-tabs.conf
 nvim/.config/nvim/nvim-pack-lock.json
 qt-theme/.config/qt6ct/style-colors.conf

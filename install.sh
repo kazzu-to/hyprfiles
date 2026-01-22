@@ -19,7 +19,7 @@ trap 'echo -e "\n${RED}Error on line $LINENO.${NC}"' ERR
 
 # ================== USER ==================
 user=${SUDO_USER:-$USER}
-user_home=$(eval echo "~$user")
+user_home=$(getnet passwd "$user" | cut -d : -f6)
 
 # ================== DEP ==================
 sudo pacman -Syyu stow --noconfirm --needed
