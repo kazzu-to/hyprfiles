@@ -25,6 +25,7 @@
         ],
         "preferredPlayer": "",
         "visualizerType": "wave",
+        "volumeFeedback": false,
         "volumeOverdrive": false,
         "volumeStep": 5
     },
@@ -41,11 +42,17 @@
         ],
         "outerCorners": true,
         "position": "left",
+        "screenOverrides": [
+        ],
         "showCapsule": false,
         "showOutline": false,
         "useSeparateOpacity": false,
         "widgets": {
             "center": [
+                {
+                    "displayMode": "onhover",
+                    "id": "VPN"
+                },
                 {
                     "customFont": "",
                     "formatHorizontal": "HH:mm ddd, MMM dd",
@@ -67,6 +74,7 @@
                     "showMemoryAsPercent": true,
                     "showMemoryUsage": true,
                     "showNetworkStats": true,
+                    "showSwapUsage": false,
                     "useMonospaceFont": true,
                     "usePrimaryColor": true
                 },
@@ -154,6 +162,7 @@
                 {
                     "deviceNativePath": "",
                     "displayMode": "alwaysShow",
+                    "hideIfIdle": false,
                     "hideIfNotDetected": true,
                     "id": "Battery",
                     "showNoctaliaPerformance": true,
@@ -169,6 +178,14 @@
                     "defaultSettings": {
                         "completedCount": 0,
                         "count": 0,
+                        "current_page_id": 0,
+                        "isExpanded": false,
+                        "pages": [
+                            {
+                                "id": 0,
+                                "name": "General"
+                            }
+                        ],
                         "showBackground": true,
                         "showCompleted": true,
                         "todos": [
@@ -197,6 +214,7 @@
                 },
                 {
                     "hideWhenZero": true,
+                    "hideWhenZeroUnread": false,
                     "id": "NotificationHistory",
                     "showUnreadBadge": true
                 },
@@ -233,11 +251,12 @@
     },
     "colorSchemes": {
         "darkMode": true,
+        "generationMethod": "content",
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
-        "matugenSchemeType": "scheme-content",
+        "monitorForColors": "",
         "predefinedScheme": "Noctalia (default)",
-        "schedulingMode": "off",
+        "schedulingMode": "location",
         "useWallpaperColors": true
     },
     "controlCenter": {
@@ -305,7 +324,7 @@
     "dock": {
         "animationSpeed": 1,
         "backgroundOpacity": 1,
-        "colorizeIcons": true,
+        "colorizeIcons": false,
         "deadOpacity": 0.6,
         "displayMode": "auto_hide",
         "enabled": true,
@@ -328,11 +347,13 @@
         "boxRadiusRatio": 1,
         "compactLockScreen": false,
         "dimmerOpacity": 0,
+        "enableLockScreenCountdown": true,
         "enableShadows": true,
         "forceBlackScreenCorners": false,
         "iRadiusRatio": 1,
         "language": "",
         "lockOnSuspend": true,
+        "lockScreenCountdownDuration": 10000,
         "radiusRatio": 1,
         "scaleRatio": 1,
         "screenRadiusRatio": 1,
@@ -347,12 +368,13 @@
     },
     "hooks": {
         "darkModeChange": "",
-        "enabled": true,
+        "enabled": false,
         "performanceModeDisabled": "",
         "performanceModeEnabled": "",
         "screenLock": "",
         "screenUnlock": "",
         "session": "",
+        "startup": "",
         "wallpaperChange": ""
     },
     "location": {
@@ -390,6 +412,7 @@
         "backgroundOpacity": 1,
         "criticalUrgencyDuration": 15,
         "enableKeyboardLayoutToast": true,
+        "enableMediaToast": true,
         "enabled": true,
         "location": "top_right",
         "lowUrgencyDuration": 3,
@@ -430,8 +453,8 @@
         "overlayLayer": true
     },
     "sessionMenu": {
-        "countdownDuration": 10000,
-        "enableCountdown": true,
+        "countdownDuration": 3000,
+        "enableCountdown": false,
         "largeButtonsLayout": "grid",
         "largeButtonsStyle": true,
         "position": "center",
@@ -476,7 +499,7 @@
         "showHeader": true,
         "showNumberLabels": true
     },
-    "settingsVersion": 40,
+    "settingsVersion": 44,
     "systemMonitor": {
         "cpuCriticalThreshold": 80,
         "cpuPollingInterval": 3000,
@@ -495,6 +518,8 @@
         "memPollingInterval": 3000,
         "memWarningThreshold": 80,
         "networkPollingInterval": 3000,
+        "swapCriticalThreshold": 90,
+        "swapWarningThreshold": 80,
         "tempCriticalThreshold": 90,
         "tempPollingInterval": 3000,
         "tempWarningThreshold": 80,
@@ -514,17 +539,25 @@
             {
                 "enabled": true,
                 "id": "yazi"
+            },
+            {
+                "enabled": true,
+                "id": "qt"
+            },
+            {
+                "enabled": true,
+                "id": "btop"
             }
         ],
-        "enableUserTemplates": true
+        "enableUserTheming": false
     },
     "ui": {
         "bluetoothDetailsViewMode": "grid",
         "bluetoothHideUnnamedDevices": false,
         "boxBorderEnabled": false,
-        "fontDefault": "OpenDyslexic Nerd Font",
+        "fontDefault": "ComicShannsMono Nerd Font",
         "fontDefaultScale": 1,
-        "fontFixed": "OpenDyslexicM Nerd Font Mono",
+        "fontFixed": "CommitMono Nerd Font Mono",
         "fontFixedScale": 1,
         "networkPanelView": "wifi",
         "panelBackgroundOpacity": 0.8,
@@ -534,7 +567,8 @@
         "wifiDetailsViewMode": "grid"
     },
     "wallpaper": {
-        "directory": "/home/bhaalu/Pictures/walls/PC",
+        "automationEnabled": false,
+        "directory": "",
         "enableMultiMonitorDirectories": false,
         "enabled": true,
         "fillColor": "#000000",
@@ -544,16 +578,16 @@
         ],
         "overviewEnabled": false,
         "panelPosition": "follow_bar",
-        "randomEnabled": false,
         "randomIntervalSec": 1800,
-        "recursiveSearch": false,
         "setWallpaperOnAllMonitors": true,
+        "showHiddenFiles": true,
         "solidColor": "#1a1a2e",
         "transitionDuration": 1500,
         "transitionEdgeSmoothness": 0.05,
         "transitionType": "random",
         "useSolidColor": false,
         "useWallhaven": false,
+        "viewMode": "single",
         "wallhavenApiKey": "",
         "wallhavenCategories": "111",
         "wallhavenOrder": "desc",

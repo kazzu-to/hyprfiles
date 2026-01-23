@@ -83,7 +83,7 @@ function graphite(){
   cd Graphite-gtk-theme
   sudo ./install.sh -t all --tweaks rimless black normal
   cd "$HOME"
-  echo -e "{GREEN}Installed Graphite{NC}"
+  echo -e "${GREEN}Installed Graphite${NC}"
 }
 
 #wget -qO- https://raw.githubusercontent.com/Rokin05/midnight-kde/master/install.sh | sh

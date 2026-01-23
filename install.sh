@@ -19,10 +19,10 @@ trap 'echo -e "\n${RED}Error on line $LINENO.${NC}"' ERR
 
 # ================== USER ==================
 user=${SUDO_USER:-$USER}
-user_home=$(getnet passwd "$user" | cut -d : -f6)
+user_home=$(getent passwd "$user" | cut -d: -f6)
 
 # ================== DEP ==================
-sudo pacman -Syyu stow --noconfirm --needed
+sudo pacman -Syu stow --noconfirm --needed
 
 # =====================================================
 # ================= INSTALL FUNCTIONS =================
@@ -49,17 +49,51 @@ pkg() {
 }
 
 enable_services() {
-    for svc in bluetooth ly ufw noctalia; do
-        sudo systemctl enable "$svc" --now || true
+  servs=(bluetooth ly ufw)
+  echo -e "Services to be enabled: ${servs[@]}"
+  read -ra servsinp -p "${Yellow}Enter other services...${NC}"       # -a takes user input as array instead of string
+  servs+=("${servsinp[@]}")
+    for svc in "${servs[@]}" ; do
+        if [[ "$svc" == "ly" ]]; then
+            sudo systemctl enable ly@tt1
+        elif [[ "$svc" == "ufw" ]]; then
+            sudo systemctl enable ufw --now
+            sudo ufw default deny incoming
+            sudo ufw default allow outgoing
+            read -rp "${Yellow}Enable ssh through firewall? [y/N]${NC}" sshinp
+            sshinp=${sshinp,,}
+            sshinp=${sshinp:-N}
+            case "$sshinp" in
+              y) 
+                sudo ufw allow ssh ;;
+              n)
+                 ;;
+              *) 
+                echo -e "${RED}Invalid option${NC}"
+            esac
+        else
+            sudo systemctl enable "$svc" --now || {
+                echo -e "${RED}Failed to enable $svc${NC}"
+            }
+        fi
     done
+    
 }
 
 bootloader() {
     read -ep "$(echo -e "${GREEN}Bootloader (refind/grub) [refind]: ${NC}")" b
     b=${b:-refind}
-    [[ $b == grub ]] && sudo bash "$user_home/.local/bin/grub_install"
-    [[ $b == refind ]] && sudo bash "$user_home/.local/bin/refind_install"
-}
+    case "$b" in 
+      g|grub)
+          sudo pacman -S grub --needed --noconfirm 
+          sudo bash "$user_home/.local/bin/grub_install" ;;
+      r|refind) 
+          sudo pacman -S refind --needed --noconfirm 
+          sudo bash "$user_home/.local/bin/refind_install" ;;
+      *) 
+          echo -e "${RED}Invalid option!${NC}" ;;
+    esac
+} 
 
 cursor() {
     dest="$user_home/.local/share/icons"
@@ -79,7 +113,7 @@ vpn() {
     sudo cp "$cfg" /etc/wireguard/
     conf=$(basename "$cfg" .conf)
 
-    sudo systemctl enable "wg-quick@$conf.service"
+    sudo systemctl enable --now "wg-quick@$conf.service"
     nmcli connection import type wireguard file "/etc/wireguard/$conf.conf"
 }
 
@@ -129,7 +163,8 @@ install_menu() {
 5) Install ctrlcat0x cursors
 6) Full install (all)
 7) WireGuard VPN
-8) Exit
+8) Install/Change Bootloader
+9) Exit
 ${NC}"
     read -rp "Select option: " c
 
@@ -141,7 +176,8 @@ ${NC}"
         5) ctrlcat0x ;;
         6) stowupdate; pkg; bootloader; enable_services; cursor ;;
         7) vpn ;;
-        8) exit 0 ;;
+        8) bootloader;;
+        9) exit 0 ;;
         *) echo -e "${RED}Invalid option${NC}" ;;
     esac
 }
