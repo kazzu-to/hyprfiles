@@ -1,24 +1,39 @@
 [config]
 [general]
 # Path to youur wallpaper or image for color extraction
-wallpaper = "~/.cache/wallpaper.jpg"
-
+#wallpaper = "~/.cache/wallpaper.jpg"
 
 [templates.hyprland]
-input_path  = "~/.config/matugen/templates/hyprland-colors.conf"
+input_path = "~/.config/matugen/templates/hyprland-colors.conf"
 output_path = "~/.config/hypr/colors.conf"
-post_hook   = "hyprctl reload"
-
-
+post_hook = "hyprctl reload"
+#
 [templates.rofi]
 input_path = "~/.config/matugen/templates/rofi-colors.rasi"
 output_path = "~/.config/rofi/colors.rasi"
-
+#
 [templates.kitty]
 input_path = "~/.config/matugen/templates/kitty-colors.conf"
 output_path = "~/.config/kitty/colors.conf"
 post_hook = "pkill -SIGUSR1 kitty"
-
+#
 [templates.quickshell_overview]
 input_path  = "~/.config/matugen/templates/quickshell-overview.qml"
 output_path = "~/.config/quickshell/overview/common/Appearance.colors.qml"
+#
+[templates.qt5]
+input_path = '~/.config/matugen/templates/qt-colors.conf'
+output_path = '~/.config/qt5ct/colors/matugen-qt5ct.conf'
+#
+[templates.qt6]
+input_path = '~/.config/matugen/templates/qt-colors.conf'
+output_path = '~/.config/qt6ct/colors/matugen-qt6ct.conf'
+#
+# check .config/gtk-x.0/gtk.css for ownership 
+[templates.gtk3]
+input_path = '~/.config/matugen/templates/matugen-gtk.css'
+output_path = '~/.config/gtk-3.0/gtk.css'
+#
+[templates.gtk4]
+input_path = '~/.config/matugen/templates/matugen-gtk.css'
+output_path = '~/.config/gtk-4.0/gtk.css'

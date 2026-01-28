@@ -22,8 +22,8 @@ RED=$'\033[0;31m'
 GREEN=$'\033[0;32m'
 NC=$'\033[0m' # No Color
 
-user=$(logname)
-user_home=$(eval echo ~$user)
+user=${SUDO_USER:-$USER}
+user_home=$(getent passwd "$user" | cut -d: -f6)
 #------------------------------------------------------------
 
 package_path="$user_home/.local/bin/package_list.txt"
@@ -68,6 +68,16 @@ for item in "${packages[@]}" ; do
 	fi
 done 
 
+function qs-overview() {
+   if [[ ! -d "$user_home/.config/quickshell/overview" ]]; then
+        git clone https://github.com/Shanu-Kumawat/quickshell-overview  "$user_home/.config/quickshell/overview" 
+        sed -i 's/useMatugenColors:[[:space:]]*false/useMatugenColors: true/' "$user_home/.config/quickshell/overview/common/Config.qml"
+   else 
+        rm -rf "$user_home/.config/quickshell/overview"
+        qs-overview
+    fi
+}
+
 function colloid(){
 	cd "/tmp"
 	git clone https://github.com/vinceliuice/Colloid-gtk-theme.git
@@ -87,6 +97,7 @@ function graphite(){
 }
 
 #wget -qO- https://raw.githubusercontent.com/Rokin05/midnight-kde/master/install.sh | sh
+qs-overview
 graphite
 
 #flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

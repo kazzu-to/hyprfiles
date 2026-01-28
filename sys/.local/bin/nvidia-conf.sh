@@ -14,11 +14,11 @@ nvidia() {
     mkdir -p /etc/modprobe.d
 
     if [[ ! -f "$nvidia_conf" ]]; then
-        touch "$nvidia_conf"
+        sudo touch "$nvidia_conf"
     fi
 
     # Write options to the config file
-    cat > "$nvidia_conf" <<EOF
+    sudo tee "$nvidia_conf" > /dev/null <<EOF
 options nvidia NVreg_PreserveVideoMemoryAllocations=1
 options nvidia NVreg_TemporaryFilePath=/var/tmp
 EOF

@@ -1,6 +1,7 @@
-
 #!/usr/bin/env bash
+
 set -Eeuo pipefail
+set -o errtrace
 
 # ================== SUDO KEEPALIVE ==================
 sudo -k
@@ -17,24 +18,22 @@ NC=$'\033[0m'
 
 trap 'echo -e "\n${RED}Error on line $LINENO.${NC}"' ERR
 
-# ================== USER ==================
+# ================== USER INFO ==================
 user=${SUDO_USER:-$USER}
 user_home=$(getent passwd "$user" | cut -d: -f6)
 
-# ================== DEP ==================
-sudo pacman -Syu stow --noconfirm --needed
+# ================== DEPENDENCIES ==================
+sudo pacman -Syu stow --needed --noconfirm
 
-# =====================================================
-# ================= INSTALL FUNCTIONS =================
-# =====================================================
+# ================== INSTALL FUNCTIONS ==================
 
 stowupdate() {
-    default_path="$user_home/hyprfiles/"
+    local default_path="$user_home/hyprfiles/"
     read -ep "$(echo -e "${GREEN}Hyprfiles path [${default_path}]: ${NC}")" loc
     loc=${loc:-$default_path}
 
     cd "$loc" || exit 1
-    stow sys hypr fastfetch swappy fish kitty matugen DankMaterualShell nvim rofi noctalia
+    stow "sys" "hypr" "fastfetch" "swappy" "fish" "kitty" "matugen" "DankMaterualShell" "nvim" "rofi" "noctalia"
 
     bash "$user_home/.config/hypr/hyprland/xf86.sh"
     sudo -u "$user" bash "$user_home/.local/bin/sysupdate"
@@ -42,61 +41,55 @@ stowupdate() {
 
 pkg() {
     sudo -u "$user" bash "$user_home/.local/bin/package-install"
-
-    [[ ! -d "$user_home/.config/quickshell/overview" ]] &&
-        git clone https://github.com/Shanu-Kumawat/quickshell-overview \
-        "$user_home/.config/quickshell/overview"
 }
 
 enable_services() {
-  servs=(bluetooth ly ufw)
-  echo -e "Services to be enabled: ${servs[@]}"
-  read -ra servsinp -p "${Yellow}Enter other services...${NC}"       # -a takes user input as array instead of string
-  servs+=("${servsinp[@]}")
-    for svc in "${servs[@]}" ; do
-        if [[ "$svc" == "ly" ]]; then
-            sudo systemctl enable ly@tt1
-        elif [[ "$svc" == "ufw" ]]; then
-            sudo systemctl enable ufw --now
-            sudo ufw default deny incoming
-            sudo ufw default allow outgoing
-            read -rp "${Yellow}Enable ssh through firewall? [y/N]${NC}" sshinp
-            sshinp=${sshinp,,}
-            sshinp=${sshinp:-N}
-            case "$sshinp" in
-              y) 
-                sudo ufw allow ssh ;;
-              n)
-                 ;;
-              *) 
-                echo -e "${RED}Invalid option${NC}"
-            esac
-        else
-            sudo systemctl enable "$svc" --now || {
-                echo -e "${RED}Failed to enable $svc${NC}"
-            }
-        fi
+    local servs=(bluetooth ly ufw)
+    echo -e "Services to be enabled: ${servs[*]}"
+    read -ra servsinp -p "${YELLOW}Enter other services (space-separated): ${NC}"
+    servs+=("${servsinp[@]}")
+
+    for svc in "${servs[@]}"; do
+        case "$svc" in
+            ly)
+                sudo systemctl enable ly@tt1
+                ;;
+            ufw)
+                sudo systemctl enable ufw --now
+                sudo ufw default deny incoming
+                sudo ufw default allow outgoing
+                read -rp "${YELLOW}Enable SSH through firewall? [y/N]: ${NC}" sshinp
+                sshinp=${sshinp,,}
+                sshinp=${sshinp:-n}
+                case "$sshinp" in
+                    y) sudo ufw allow ssh ;;
+                    n) ;;
+                    *) echo -e "${RED}Invalid option${NC}" ;;
+                esac
+                ;;
+            *)
+                sudo systemctl enable "$svc" --now || echo -e "${RED}Failed to enable $svc${NC}"
+                ;;
+        esac
     done
-    
 }
 
 bootloader() {
     read -ep "$(echo -e "${GREEN}Bootloader (refind/grub) [refind]: ${NC}")" b
     b=${b:-refind}
     case "$b" in 
-      g|grub)
-          sudo pacman -S grub --needed --noconfirm 
-          sudo bash "$user_home/.local/bin/grub_install" ;;
-      r|refind) 
-          sudo pacman -S refind --needed --noconfirm 
-          sudo bash "$user_home/.local/bin/refind_install" ;;
-      *) 
-          echo -e "${RED}Invalid option!${NC}" ;;
+        g|grub)
+            sudo pacman -S grub --needed --noconfirm 
+            sudo bash "$user_home/.local/bin/grub_install" ;;
+        r|refind) 
+            sudo pacman -S refind --needed --noconfirm 
+            sudo bash "$user_home/.local/bin/refind_install" ;;
+        *) echo -e "${RED}Invalid option!${NC}" ;;
     esac
 } 
 
 cursor() {
-    dest="$user_home/.local/share/icons"
+    local dest="$user_home/.local/share/icons"
     mkdir -p "$dest"
     rm -rf "$dest/Anya-cursors"
     cp -r Anya-cursors "$dest"
@@ -107,29 +100,39 @@ ctrlcat0x() {
 }
 
 vpn() {
-    sudo pacman -S wireguard-tools networkmanager --needed --noconfirm
+    local bin="$user_home/.local/bin/vpn-setup"
 
-    read -ep "$(echo -e "${GREEN}WireGuard config path: ${NC}")" cfg
-    sudo cp "$cfg" /etc/wireguard/
-    conf=$(basename "$cfg" .conf)
+    if [[ ! -x "$bin" ]]; then
+        echo -e "${RED}Run \`stow sys\` and try again${NC}"
+        return 1
+    fi
 
-    sudo systemctl enable --now "wg-quick@$conf.service"
-    nmcli connection import type wireguard file "/etc/wireguard/$conf.conf"
+    local cfg
+
+    while true; do
+        read -ep "${YELLOW}Enter WireGuard config path relative to home (e.g., Downloads/sg-vpn.conf): ${NC}" cfg
+        cfg="$user_home/$cfg"   
+
+        if [[ -f "$cfg" ]]; then
+            break
+        else
+            echo -e "${RED}❌ File not found: $cfg${NC}"
+        fi
+    done
+
+    "$bin" "$cfg"
 }
 
-# =====================================================
-# ================= UNINSTALL FUNCTIONS ================
-# =====================================================
+# ================== UNINSTALL FUNCTIONS ==================
 
 unstow() {
     cd "$user_home/hyprfiles" || exit 1
-    stow -D sys hypr fastfetch swappy fish kitty matugen DankMaterualShell nvim rofi noctalia
+    stow -D "sys" "hypr" "fastfetch" "swappy" "fish" "kitty" "matugen" "DankMaterualShell" "nvim" "rofi" "noctalia"
 }
 
 unpkg() {
     sudo pacman -Rns --noconfirm \
-        $(cat "$user_home/.local/bin/package-install" \
-        | grep pacman | sed 's/.*-S //')
+        $(grep -oP 'pacman -S\s+\K\S+' "$user_home/.local/bin/package-install" || true)
 }
 
 unbootloader() {
@@ -150,9 +153,7 @@ unvpn() {
     nmcli connection delete type wireguard || true
 }
 
-# =====================================================
-# ================= MENU HANDLERS =====================
-# =====================================================
+# ================== MENU HANDLERS ==================
 
 install_menu() {
     echo -e "${GREEN}
@@ -176,7 +177,7 @@ ${NC}"
         5) ctrlcat0x ;;
         6) stowupdate; pkg; bootloader; enable_services; cursor ;;
         7) vpn ;;
-        8) bootloader;;
+        8) bootloader ;;
         9) exit 0 ;;
         *) echo -e "${RED}Invalid option${NC}" ;;
     esac
@@ -206,9 +207,7 @@ ${NC}"
     esac
 }
 
-# =====================================================
-# ================= ENTRY =============================
-# =====================================================
+# ================== ENTRY ==================
 
 echo -e "${GREEN}
 Choose mode:
