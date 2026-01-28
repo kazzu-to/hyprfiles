@@ -1,23 +1,20 @@
 #!/usr/bin/env bash
+set -e
 
 command -v lspci >/dev/null || { echo "Install pciutils"; exit 1; }
 
-if lspci | grep -iq nvidia; then
-    echo "NVIDIA GPU detected."
-else
-    echo "No NVIDIA GPU found."
+if ! lspci | grep -iq nvidia; then
+    echo "No NVIDIA GPU found. Exiting."
+    exit 0
 fi
+
+echo "NVIDIA GPU detected."
 
 nvidia_conf="/etc/modprobe.d/nvidia.conf"
 
-nvidia() {
-    mkdir -p /etc/modprobe.d
+configure_nvidia() {
+    sudo mkdir -p /etc/modprobe.d
 
-    if [[ ! -f "$nvidia_conf" ]]; then
-        sudo touch "$nvidia_conf"
-    fi
-
-    # Write options to the config file
     sudo tee "$nvidia_conf" > /dev/null <<EOF
 options nvidia NVreg_PreserveVideoMemoryAllocations=1
 options nvidia NVreg_TemporaryFilePath=/var/tmp
@@ -26,4 +23,4 @@ EOF
     echo "NVIDIA config written to $nvidia_conf"
 }
 
-nvidia
+configure_nvidia

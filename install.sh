@@ -45,7 +45,7 @@ pkg() {
 
 enable_services() {
     local servs=(bluetooth ly ufw)
-    echo -e "Services to be enabled: ${servs[*]}"
+    echo -e "Services to be enabled: ${servs[@]}"
     read -ra servsinp -p "${YELLOW}Enter other services (space-separated): ${NC}"
     servs+=("${servsinp[@]}")
 
